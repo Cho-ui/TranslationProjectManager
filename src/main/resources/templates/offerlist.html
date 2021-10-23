@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Offer List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Offers</h1>
+	<table>
+		<tr>
+			<th>Client</th>
+			<th>Subject</th>
+			<th>Word Count</th>
+			<th>Source Language</th>
+			<th>Target Language</th>
+			<th>Price</th>
+		</tr>
+		<tr th:each="offer: ${offers}">
+			<td th:text="${offer.client.clientName}">Client Name</td>
+			<td th:text="${offer.subject}">Subject Matter</td>
+			<td th:text="${offer.wordCount}">Word Count</td>
+			<td th:text="${offer.sourceLanguage}">Source Language</td>
+			<td th:text="${offer.targetLanguage}">Target Language</td>
+			<td th:text="${offer.price}">Price</td>
+		</tr>
+	</table>
+</body>
+</html>
