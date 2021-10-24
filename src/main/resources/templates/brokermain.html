@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Broker Main View Test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Clients</h1>
+	<table>
+		<tr>
+			<th>Client</th>
+			<th>Contact Name</th>
+			<th>Phone Number</th>
+			<th>E-Mail</th>
+		</tr>
+		<tr th:each="client: ${clients}">
+			<td th:text="${client.clientName}">Client Name</td>
+			<td
+				th:text="${client.clientContactFName} + ' ' + ${client.clientContactLName}">Contact
+				Name</td>
+			<td th:text="${client.clientContactPhone}">Phone Number</td>
+			<td th:text="${client.clientContactEmail}">Email</td>
+		</tr>
+	</table>
+	<h1>Assigned Work Offers</h1>
+	<p>TODO</p>
+	<h1>Unassigned Work Offers</h1>
+	<table>
+		<tr>
+			<th>Client</th>
+			<th>Subject</th>
+			<th>Word Count</th>
+			<th>Source Language</th>
+			<th>Target Language</th>
+			<th>Price</th>
+		</tr>
+		<tr th:each="offer: ${offers}">
+			<td th:text="${offer.client.clientName}">Client Name</td>
+			<td th:text="${offer.subject}">Subject Matter</td>
+			<td th:text="${offer.wordCount}">Word Count</td>
+			<td th:text="${offer.sourceLanguage}">Source Language</td>
+			<td th:text="${offer.targetLanguage}">Target Language</td>
+			<td th:text="${offer.price}">Price</td>
+		</tr>
+	</table>
+	<h1>Freelancers</h1>
+	<p>TODO</p>
+</body>
+</html>

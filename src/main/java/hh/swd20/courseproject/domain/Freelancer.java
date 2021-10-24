@@ -1,6 +1,7 @@
 package hh.swd20.courseproject.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Freelancer {
@@ -30,6 +32,9 @@ public class Freelancer {
 	inverseJoinColumns =  { @JoinColumn(name = "languageId") }
 	)
 	Set<Language> languages = new HashSet<>();
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "freelancer") // another cascade type?
+	private List<Offer> offers;
 	
 	public Freelancer(String freelancerFName, String freelancerLName, String freelancerPhone, String freelancerAddress,
 			String freelancerEmail) {
@@ -106,8 +111,16 @@ public class Freelancer {
 		this.languages = languages;
 	}
 
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
+	}
+
 	@Override
-	public String toString() {
+	public String toString() { // not updated, update when necessary
 		return "Freelancer [freelancerFName=" + freelancerFName + ", freelancerLName=" + freelancerLName
 				+ ", freelancerPhone=" + freelancerPhone + ", freelancerAddress=" + freelancerAddress
 				+ ", freelancerEmail=" + freelancerEmail + "]";
