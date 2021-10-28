@@ -33,6 +33,7 @@
 			<th>Source Language</th>
 			<th>Target Language</th>
 			<th>Price</th>
+			<th>Assign</th>
 		</tr>
 		<tr th:each="offer: ${offers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
@@ -41,9 +42,25 @@
 			<td th:text="${offer.sourceLanguage}">Source Language</td>
 			<td th:text="${offer.targetLanguage}">Target Language</td>
 			<td th:text="${offer.price}">Price</td>
+			<td><a th:href="@{/assign/{id}(id=${offer.offerId})}" method="post">Assign</a></td>
 		</tr>
 	</table>
 	<h1>Freelancers</h1>
-	<p>TODO</p>
+	<table>
+	<tr>
+		<th>Name</th>
+		<th>Phone</th>
+		<th>Address</th>
+		<th>Email</th>
+		<th>Languages</th>
+	</tr>
+	<tr th:each="freelancer: ${freelancers}">
+		<td th:text="${freelancer.freelancerFName} + ' ' + ${freelancer.freelancerLName}">Freelancer name</td>
+		<td th:text="${freelancer.freelancerPhone}">Phone number</td>
+		<td th:text="${freelancer.freelancerAddress}">Address</td>
+		<td th:text="${freelancer.freelancerEmail}">Email</td>
+		<td th:text="${freelancer.getLanguagesAsStrings()}">Languages</td>	
+	</tr>
+	</table>
 </body>
 </html>

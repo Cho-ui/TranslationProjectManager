@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Assign Offer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Assign a Freelancer to the Offer</h1>
+	<div>
+	<form th:object="${offer}" th:action="@{../save}" action="#" method="post">
+	<label for="freelancer">Proficient freelancers</label>
+	<select id="freelancer" th:field="*{freelancer}" class="form-control">
+		<option th:each="freelancer: ${freelancers}"
+			th:value="${freelancer.freelancerId}"
+			th:text="${freelancer.freelancerFName} + ' ' + ${freelancer.freelancerLName}">
+		</option>	
+	</select>
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<input type="submit" value="Save"></input>
+	</form>
+	</div>
+</body>
+</html>

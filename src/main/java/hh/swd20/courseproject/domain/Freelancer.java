@@ -31,7 +31,7 @@ public class Freelancer {
 	joinColumns = { @JoinColumn(name = "freelancerId") },
 	inverseJoinColumns =  { @JoinColumn(name = "languageId") }
 	)
-	Set<Language> languages = new HashSet<>();
+	Set<Language> languages = new HashSet<Language>();
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "freelancer") // another cascade type?
 	private List<Offer> offers;
@@ -109,6 +109,19 @@ public class Freelancer {
 
 	public void setLanguages(Set<Language> languages) {
 		this.languages = languages;
+	}
+	
+	public String getLanguagesAsStrings() { // muokkaa näyttämään suomi eka tms.
+		
+		Set<Language> iterateLanguages = this.languages;
+		String proficiencies = "";
+		
+		for (Language language : iterateLanguages) {
+			proficiencies += " " + language.getLanguageName();
+		}
+		
+		return proficiencies;
+		
 	}
 
 	public List<Offer> getOffers() {
