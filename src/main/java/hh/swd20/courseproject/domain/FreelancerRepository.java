@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FreelancerRepository extends CrudRepository<Freelancer, Long> {
 	
-	public List<Freelancer> findByLanguagesIn(HashSet<Language> neededLanguages);
+	// hyödynnä tätä jos haluat friikkujen kielten haun elegantimmaksi
+	// public List<Freelancer> findByLanguagesIn(HashSet<Language> neededLanguages);
 
 }

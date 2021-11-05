@@ -7,7 +7,9 @@
 <body>
 	<h1>Assign a Freelancer to the Offer</h1>
 	<div>
-	<form th:object="${offer}" th:action="@{../save}" action="#" method="post">
+	<form th:object="${offer}" th:action="@{/assignfreelancer}" action="#" method="post">
+	<label for="id"></label>
+	<input type="hidden" id="id" th:field="*{offerId}" readonly="readonly" />
 	<label for="freelancer">Proficient freelancers</label>
 	<select id="freelancer" th:field="*{freelancer}" class="form-control">
 		<option th:each="freelancer: ${freelancers}"

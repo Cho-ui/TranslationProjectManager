@@ -1,5 +1,9 @@
 package hh.swd20.courseproject.web;
 
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import hh.swd20.courseproject.domain.ClientRepository;
+import hh.swd20.courseproject.domain.Freelancer;
 import hh.swd20.courseproject.domain.FreelancerRepository;
 import hh.swd20.courseproject.domain.Offer;
 import hh.swd20.courseproject.domain.OfferRepository;
@@ -29,28 +34,57 @@ public class OfferController {
 	
 	/** Manually built test endpoints for database construction **/
 	
+	// not in use
 	@GetMapping("/offerlist")
 	public String offerList(Model model) {
 		model.addAttribute("offers", offerRepository.findAll());
 		return "offerlist"; // offerlist.html
 	}
 	
-	@GetMapping("/brokermain") // omaksi controllerikseen?
-	public String brokerMain(Model model) {
-		model.addAttribute("offers", offerRepository.findAll());
+	@GetMapping("/addoffer")
+	public String addOffer(Model model) {
+		model.addAttribute("offer", new Offer());
 		model.addAttribute("clients", clientRepository.findAll());
-		model.addAttribute("freelancers", freelancerRepository.findAll());
-		return "brokermain"; // brokermain.html
+		return "addoffer"; // addoffer.html
+	}
+	
+	@PostMapping("/saveoffer")
+	public String saveOffer(Offer offer) {
+		
+		/* gets the initial form deadline date value,
+		 * converts it to GMT +2(Helsinki) and saves it to the offer
+		 */
+		offer.setDeadlineDate(ZonedDateTime.of
+				(LocalDateTime.parse(offer.getFormDeadline()),
+				ZoneId.of("Europe/Helsinki")));		
+		
+		offerRepository.save(offer);
+		return "redirect:brokermain"; //brokermain.html
 	}
 	
 	@GetMapping("/assign/{id}")
 	public String assignOffer(@PathVariable("id") Long offerId, Model model) {
-		Offer offer = offerRepository.findById(offerId).get();
 		
-		// kysy kielet offerista, laita ne settiin/collectioniin
+		/* get offer languages and put them in a comparable form
+		 * to retrieve freelancers from FreelancerRepository
+		 */
+		
+		Offer offer = offerRepository.findById(offerId).get();
+		String src = offer.getSourceLanguage();
+		String trgt = offer.getTargetLanguage();
+		
+		List<Freelancer> suitableFreelancers = new ArrayList<Freelancer>();
+		
+		for (Freelancer freelancer : freelancerRepository.findAll()) {
+			
+			if (freelancer.getLanguagesAsStringArray().contains(src) &&
+					freelancer.getLanguagesAsStringArray().contains(trgt)) {
+				suitableFreelancers.add(freelancer);
+			}
+		}
+		
 		model.addAttribute("offer", offer);
-		// vaihda alle findall uuteen findby-metodiin
-		model.addAttribute("freelancers", freelancerRepository.findAll());
+		model.addAttribute("freelancers", suitableFreelancers);
 		return "assignoffer";
 	}
 	

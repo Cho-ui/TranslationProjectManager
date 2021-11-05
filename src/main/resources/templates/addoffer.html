@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add Offer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>New Offer</h1>
+	<div>
+	<form th:object="${offer}" th:action="@{saveoffer}" action="#" method="post">
+	<label for="client">Client:</label>
+	<select id="client" th:field="*{client}" class="form-control">
+		<option th:each="client: ${clients}"
+			th:value="${client.clientId}"
+			th:text="${client.clientName}">
+		</option>	
+	</select>
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="wordCount">Word Count:</label>
+			<input type="text" id="wordCount" th:field="*{wordCount}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="price">Price(€):</label>
+			<input type="text" id="price" th:field="*{price}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="subject">Subject:</label>
+			<input type="text" id="subject" th:field="*{subject}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="sourceLanguage">Source Language:</label>
+			<input type="text" id="sourceLanguage" th:field="*{sourceLanguage}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="targetLanguage">Target Language:</label>
+			<input type="text" id="targetLanguage" th:field="*{targetLanguage}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="deadlineDate">Deadline:</label>
+			<input placeholder="dd.mm.yyyy hh:mm" type="datetime-local" id="formDeadline" 
+			name="formDeadline" class="form-control" required th:field="*{formDeadline}"/>
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<input type="submit" value="Save"></input>
+	</form>
+	</div>
+	<br/>
+	<a href="/brokermain">Return without saving</a>
+</body>
+</html>

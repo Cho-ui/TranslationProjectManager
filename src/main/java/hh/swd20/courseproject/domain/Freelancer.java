@@ -1,5 +1,7 @@
 package hh.swd20.courseproject.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -111,17 +113,31 @@ public class Freelancer {
 		this.languages = languages;
 	}
 	
-	public String getLanguagesAsStrings() { // muokkaa näyttämään suomi eka tms.
+	public String getLanguagesAsStrings() {
 		
-		Set<Language> iterateLanguages = this.languages;
+		ArrayList<String> languages = getLanguagesAsStringArray();
+		
+		Collections.sort(languages);
+		
 		String proficiencies = "";
 		
-		for (Language language : iterateLanguages) {
-			proficiencies += " " + language.getLanguageName();
+		for (String language : languages) {
+			proficiencies += " " + language;
 		}
 		
 		return proficiencies;
 		
+	}
+	
+	public ArrayList<String> getLanguagesAsStringArray() {
+		
+		ArrayList<String> proficiencies = new ArrayList<String>();
+		
+		for (Language language : this.languages) {
+			proficiencies.add(language.getLanguageName());
+		}
+		
+		return proficiencies;		
 	}
 
 	public List<Offer> getOffers() {

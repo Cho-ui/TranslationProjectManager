@@ -1,6 +1,7 @@
 package hh.swd20.courseproject.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,15 +24,15 @@ public class Offer {
 	private String subject;
 	private String sourceLanguage;
 	private String targetLanguage;
+	private String formDeadline;
 	private String requirements; // not in constructor yet
 	private boolean assigned; // not in constructor yet
 	private boolean completed; // not in constructor yet
+
+	private ZonedDateTime deadlineDate;
 	
 	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") // not in constructor yet
-	private Date deadlineDate;
-	
-	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") // not in constructor yet
-	private Date completionDate;
+	private LocalDateTime completionDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "freelancerId")
@@ -51,11 +52,25 @@ public class Offer {
 		this.sourceLanguage = sourceLanguage;
 		this.targetLanguage = targetLanguage;
 	}
+	
+	public Offer(Client client, int wordCount, double price,
+			String subject, String sourceLanguage, String targetLanguage,
+			String requirements, String formDeadline) {
+		super();
+		this.client = client;
+		this.wordCount = wordCount;
+		this.price = price;
+		this.subject = subject;
+		this.sourceLanguage = sourceLanguage;
+		this.targetLanguage = targetLanguage;
+		this.requirements = requirements;
+		this.formDeadline = formDeadline;					
+			}
 
 	public Offer() {
 		super();
 	}
-
+	
 	public Long getOfferId() {
 		return offerId;
 	}
@@ -136,20 +151,28 @@ public class Offer {
 		this.completed = completed;
 	}
 
-	public Date getDeadlineDate() {
+	public ZonedDateTime getDeadlineDate() {
 		return deadlineDate;
 	}
 
-	public void setDeadlineDate(Date deadlineDate) {
+	public void setDeadlineDate(ZonedDateTime deadlineDate) {
 		this.deadlineDate = deadlineDate;
 	}
 
-	public Date getCompletionDate() {
+	public LocalDateTime getCompletionDate() {
 		return completionDate;
 	}
 
-	public void setCompletionDate(Date completionDate) {
+	public void setCompletionDate(LocalDateTime completionDate) {
 		this.completionDate = completionDate;
+	}
+
+	public String getFormDeadline() {
+		return formDeadline;
+	}
+
+	public void setFormDeadline(String formDeadline) {
+		this.formDeadline = formDeadline;
 	}
 
 	public Freelancer getFreelancer() {

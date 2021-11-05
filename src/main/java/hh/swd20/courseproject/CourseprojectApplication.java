@@ -54,11 +54,15 @@ public class CourseprojectApplication {
 			Offer o2 = new Offer(c2, 1300, 270.11, "Marketing materials", "Finnish", "English");
 			Offer o3 = new Offer(c2, 11400, 2800.56, "Sales report", "German", "French");
 			Offer o4 = new Offer(c3, 400, 91.02, "Product pitch doc", "Finnish", "Spanish");
+			Offer o5 = new Offer(c3, 703, 180.22, "Technical specifications", "Finnish", "German");
+			Offer o6 = new Offer(c2, 1560, 300.88, "Technical specifications", "German", "Finnish");
 			
 			offerRepository.save(o1);
 			offerRepository.save(o2);
 			offerRepository.save(o3);
 			offerRepository.save(o4);
+			offerRepository.save(o5);
+			offerRepository.save(o6);
 			
 			log.info("Fetch offers");
 			for (Offer offer : offerRepository.findAll()) {

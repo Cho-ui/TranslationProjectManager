@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add Client</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>New Client</h1>
+	<div>
+	<form th:object="${client}" th:action="@{saveclient}" action="#" method="post">
+	<label for="clientName">Client Organization:</label>
+			<input type="text" id="clientName" th:field="*{clientName}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="clientContactFName">Contact First Name:</label>
+			<input type="text" id="clientContactFName" th:field="*{clientContactFName}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="clientContactLName">Contact Last Name:</label>
+			<input type="text" id="clientContactLName" th:field="*{clientContactLName}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="clientContactPhone">Contact Telephone:</label>
+			<input type="text" id="clientContactPhone" th:field="*{clientContactPhone}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<label for="clientContactEmail">Contact Email:</label>
+			<input type="text" id="clientContactEmail" th:field="*{clientContactEmail}" />
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<input type="submit" value="Save"></input>
+	</form>
+	</div>
+	<br/>
+	<a href="/brokermain">Return without saving</a>
+</body>
+</html>
