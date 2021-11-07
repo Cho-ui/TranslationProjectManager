@@ -63,8 +63,10 @@
 	<h2>Edit freelancer info</h2>
 	<div>
 	<form th:object="${freelancer}" 
-	th:action="@{/updatefreelancer/{id}(id=${freelancer.freelancerId})}" 
+	th:action="@{/updatefreelancer}" 
 	action="#" method="post">
+	<label for="id"></label>
+	<input type="hidden" id="id" th:field="*{freelancerId}" readonly="readonly" />
 	<label for="freelancerFName">First Name:</label>
 			<input type="text" id="freelancerFName" th:field="*{freelancerFName}" />
 	<div style="clear: both; display: block; height: 10px;"></div>

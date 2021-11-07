@@ -2,6 +2,7 @@ package hh.swd20.courseproject.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -143,16 +144,19 @@ public class FreelancerController {
 	@PostMapping("/updatefreelancer")
 	public String updateFreelancer(@ModelAttribute Freelancer freelancer) {
 		
-		Freelancer toUpdate = freelancerRepository.findById(freelancer.getFreelancerId()).get();
-		toUpdate.setFreelancerFName(freelancer.getFreelancerFName());
-		toUpdate.setFreelancerLName(freelancer.getFreelancerLName());
-		toUpdate.setFreelancerPhone(freelancer.getFreelancerPhone());
-		toUpdate.setFreelancerAddress(freelancer.getFreelancerAddress());
-		toUpdate.setFreelancerEmail(freelancer.getFreelancerEmail());
+		/* Gets existing freelancer language set, which is stored
+		 * separately. Sets the language set to the updated freelancer,
+		 * so as to not overwrite an empty set when saving the updated
+		 * freelancer
+		 */
+		Set<Language> freelancerLanguages = freelancerRepository.findById(freelancer.getFreelancerId()).get().getLanguages();
+		Freelancer updatedFreelancer = freelancer;
+		updatedFreelancer.setLanguages(freelancerLanguages);
+		freelancerRepository.save(freelancer);
 		
-		freelancerRepository.save(toUpdate);
 		
-		return "brokermain"; // brokermain.html
+		
+		return "redirect:brokermain"; // brokermain.html
 		
 	}
 	
