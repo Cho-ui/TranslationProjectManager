@@ -27,6 +27,7 @@ public class Freelancer {
 	private String freelancerPhone;
 	private String freelancerAddress;
 	private String freelancerEmail;
+	private String freelanceLanguageField; // form field workaround variable
 	
 	@ManyToMany(cascade = { CascadeType.MERGE }) // changed from ALL
 	@JoinTable(name = "Freelancer_Proficiency",
@@ -138,6 +139,14 @@ public class Freelancer {
 		}
 		
 		return proficiencies;		
+	}
+
+	public String getFreelanceLanguageField() {
+		return freelanceLanguageField;
+	}
+
+	public void setFreelanceLanguageField(String freelanceLanguageField) {
+		this.freelanceLanguageField = freelanceLanguageField;
 	}
 
 	public List<Offer> getOffers() {

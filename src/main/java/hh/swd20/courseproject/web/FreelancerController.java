@@ -1,14 +1,20 @@
 package hh.swd20.courseproject.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import hh.swd20.courseproject.domain.Freelancer;
 import hh.swd20.courseproject.domain.FreelancerRepository;
+import hh.swd20.courseproject.domain.Language;
+import hh.swd20.courseproject.domain.LanguageRepository;
 import hh.swd20.courseproject.domain.Offer;
 import hh.swd20.courseproject.domain.OfferRepository;
 
@@ -21,6 +27,9 @@ public class FreelancerController {
 	@Autowired
 	private OfferRepository offerRepository;
 	
+	@Autowired
+	private LanguageRepository languageRepository;
+	
 	/** Manually built test endpoints for database construction **/
 	
 	@GetMapping("/addfreelancer")
@@ -29,10 +38,162 @@ public class FreelancerController {
 		return "addfreelancer"; //addfreelancer.html
 	}
 	
+	@PostMapping("/addfreelancerlanguage/{id}")
+	public String addFreeLancerLanguage(@PathVariable("id") Long freelancerId,
+			@ModelAttribute Freelancer freelancer, Model model) {
+		
+		/* This saves the added language to the freelancer in the db */
+		
+		Language toAdd = languageRepository.findByLanguageName(freelancer.getFreelanceLanguageField());
+		Freelancer fromRepo = freelancerRepository.findById(freelancerId).get();
+		fromRepo.getLanguages().add(toAdd);
+		freelancerRepository.save(fromRepo);
+		
+		/* add:
+		 * get the language proficiencies the freelancer has,
+		 * compare them to all available languages
+		 * and add a list of proficiencies the freelancer doesn't have
+		 * to the model
+		 * 
+		 * remove:
+		 * get the language proficiencies the freelancer has,
+		 * compare them to all available languages
+		 * and create a Language object list to be passed in the model
+		 */
+		
+		ArrayList<String> freelancerLanguages = 
+				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
+		
+		List<Language> addLanguages = new ArrayList<Language>();
+		List<Language> removeLanguages = new ArrayList<Language>();
+		
+		for (Language language : languageRepository.findAll()) {
+			if (!freelancerLanguages.contains(language.getLanguageName())) {
+				addLanguages.add(language);
+			}
+		}
+		
+		for (Language language : languageRepository.findAll()) {
+			if (freelancerLanguages.contains(language.getLanguageName())) {
+				removeLanguages.add(language);
+			}
+		}
+		
+		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
+		model.addAttribute("addlanguages", addLanguages);
+		model.addAttribute("removelanguages", removeLanguages);
+		
+		return "editfreelancer"; //editfreelancer.html
+	}
+	
+	@PostMapping("/deletefreelancerlanguage/{id}")
+	public String deleteFreeLancerLanguage(@PathVariable("id") Long freelancerId,
+			@ModelAttribute Freelancer freelancer, Model model) {
+		
+		/* This deletes the chosen language from the freelancer in the db */
+		
+		Language toDelete = languageRepository.findByLanguageName(freelancer.getFreelanceLanguageField());
+		Freelancer fromRepo = freelancerRepository.findById(freelancerId).get();
+		fromRepo.getLanguages().remove(toDelete);
+		freelancerRepository.save(fromRepo);
+		
+		/* add:
+		 * get the language proficiencies the freelancer has,
+		 * compare them to all available languages
+		 * and add a list of proficiencies the freelancer doesn't have
+		 * to the model
+		 * 
+		 * remove:
+		 * get the language proficiencies the freelancer has,
+		 * compare them to all available languages
+		 * and create a Language object list to be passed in the model
+		 */
+		
+		ArrayList<String> freelancerLanguages = 
+				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
+		
+		List<Language> addLanguages = new ArrayList<Language>();
+		List<Language> removeLanguages = new ArrayList<Language>();
+		
+		for (Language language : languageRepository.findAll()) {
+			if (!freelancerLanguages.contains(language.getLanguageName())) {
+				addLanguages.add(language);
+			}
+		}
+		
+		for (Language language : languageRepository.findAll()) {
+			if (freelancerLanguages.contains(language.getLanguageName())) {
+				removeLanguages.add(language);
+			}
+		}
+		
+		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
+		model.addAttribute("addlanguages", addLanguages);
+		model.addAttribute("removelanguages", removeLanguages);
+		
+		return "editfreelancer"; //editfreelancer.html
+	}
+	
 	@PostMapping("/savefreelancer")
 	public String saveFreelancer(Freelancer freelancer) {
 		freelancerRepository.save(freelancer);
 		return "redirect:brokermain"; //brokermain.html
+	}
+	
+	@PostMapping("/updatefreelancer")
+	public String updateFreelancer(@ModelAttribute Freelancer freelancer) {
+		
+		Freelancer toUpdate = freelancerRepository.findById(freelancer.getFreelancerId()).get();
+		toUpdate.setFreelancerFName(freelancer.getFreelancerFName());
+		toUpdate.setFreelancerLName(freelancer.getFreelancerLName());
+		toUpdate.setFreelancerPhone(freelancer.getFreelancerPhone());
+		toUpdate.setFreelancerAddress(freelancer.getFreelancerAddress());
+		toUpdate.setFreelancerEmail(freelancer.getFreelancerEmail());
+		
+		freelancerRepository.save(toUpdate);
+		
+		return "brokermain"; // brokermain.html
+		
+	}
+	
+	@GetMapping("/edit/{id}")
+	public String editFreelancer(@PathVariable("id") Long freelancerId, Model model) {
+		
+		/* add:
+		 * get the language proficiencies the freelancer has,
+		 * compare them to all available languages
+		 * and add a list of proficiencies the freelancer doesn't have
+		 * to the model
+		 * 
+		 * remove:
+		 * get the language proficiencies the freelancer has,
+		 * compare them to all available languages
+		 * and create a Language object list to be passed in the model
+		 */
+		
+		ArrayList<String> freelancerLanguages = 
+				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
+		
+		List<Language> addLanguages = new ArrayList<Language>();
+		List<Language> removeLanguages = new ArrayList<Language>();
+		
+		for (Language language : languageRepository.findAll()) {
+			if (!freelancerLanguages.contains(language.getLanguageName())) {
+				addLanguages.add(language);
+			}
+		}
+		
+		for (Language language : languageRepository.findAll()) {
+			if (freelancerLanguages.contains(language.getLanguageName())) {
+				removeLanguages.add(language);
+			}
+		}
+		
+		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
+		model.addAttribute("addlanguages", addLanguages);
+		model.addAttribute("removelanguages", removeLanguages);
+				
+		return "editfreelancer"; //editfreelancer.html
 	}
 	
 	@PostMapping("/assignfreelancer") //

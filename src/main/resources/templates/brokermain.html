@@ -81,6 +81,7 @@
 		<th>Address</th>
 		<th>Email</th>
 		<th>Languages</th>
+		<th/>
 	</tr>
 	<tr th:each="freelancer: ${freelancers}">
 		<td th:text="${freelancer.freelancerFName} + ' ' + ${freelancer.freelancerLName}">Freelancer name</td>
@@ -88,6 +89,7 @@
 		<td th:text="${freelancer.freelancerAddress}">Address</td>
 		<td th:text="${freelancer.freelancerEmail}">Email</td>
 		<td th:text="${freelancer.getLanguagesAsStrings()}">Languages</td>
+		<td><a th:href="@{/edit/{id}(id=${freelancer.freelancerId})}">Edit</a></td>
 	</tr>
 	</table>
 	<div>
