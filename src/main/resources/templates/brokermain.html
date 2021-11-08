@@ -13,6 +13,7 @@
 			<th>Phone Number</th>
 			<th>E-Mail</th>
 			<th/>
+			<th/>
 		</tr>
 		<tr th:each="client: ${clients}">
 			<td th:text="${client.clientName}">Client Name</td>
@@ -22,6 +23,8 @@
 			<td th:text="${client.clientContactPhone}">Phone Number</td>
 			<td th:text="${client.clientContactEmail}">Email</td>
 			<td><a th:href="@{/editclient/{id}(id=${client.clientId})}">Edit</a>
+			<td><a th:href="@{/deleteclient/{id}(id=${client.clientId})}"
+			th:text="${client.getOffersSize()} > 0 ? '' : 'Delete'"></a>
 		</tr>
 	</table>
 	<div>
@@ -39,6 +42,7 @@
 			<th>Price</th>
 			<th>Assign</th>
 			<th/>
+			<th/>
 		</tr>
 		<tr th:each="offer: ${unassignedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
@@ -49,6 +53,7 @@
 			<td th:text="${offer.price}">Price</td>
 			<td><a th:href="@{/assign/{id}(id=${offer.offerId})}">Assign</a></td>
 			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}">Edit</a></td>
+			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
 		</tr>
 	</table>
 	<div>
@@ -67,6 +72,7 @@
 			<th>Freelancer</th>
 			<th>Unassign</th>
 			<th/>
+			<th/>
 		</tr>
 		<tr th:each="offer: ${assignedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
@@ -77,9 +83,9 @@
 			<td th:text="${offer.price}">Price</td>
 			<td th:text="${offer.freelancer.freelancerFName} 
 			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</td>
-			<!-- tähän väliin unassign -->
 			<td><a th:href="@{/unassign/{id}(id=${offer.offerId})}">Unassign</a></td>
 			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}">Edit</a></td>
+			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
 		</tr>
 	</table>
 	<h1>Freelancers</h1>
@@ -91,6 +97,7 @@
 		<th>Email</th>
 		<th>Languages</th>
 		<th/>
+		<th/>
 	</tr>
 	<tr th:each="freelancer: ${freelancers}">
 		<td th:text="${freelancer.freelancerFName} + ' ' + ${freelancer.freelancerLName}">Freelancer name</td>
@@ -99,6 +106,8 @@
 		<td th:text="${freelancer.freelancerEmail}">Email</td>
 		<td th:text="${freelancer.getLanguagesAsStrings()}">Languages</td>
 		<td><a th:href="@{/editfreelancer/{id}(id=${freelancer.freelancerId})}">Edit</a></td>
+		<td><a th:href="@{/deletefreelancer/{id}(id=${freelancer.freelancerId})}"
+		th:text="${freelancer.getOffersSize()} > 0 ? '' : 'Delete'"></a></td>
 	</tr>
 	</table>
 	<div>

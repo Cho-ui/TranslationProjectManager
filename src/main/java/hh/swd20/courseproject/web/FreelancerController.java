@@ -105,6 +105,13 @@ public class FreelancerController {
 		return "editfreelancer"; //editfreelancer.html
 	}
 	
+	@GetMapping("/deletefreelancer/{id}")
+	public String deleteFreelancer(@PathVariable("id") Long freelancerId) {
+		freelancerRepository.deleteById(freelancerId);
+		
+		return "redirect:../brokermain"; //brokermain.html
+	}
+	
 	@PostMapping("/savefreelancer")
 	public String saveFreelancer(Freelancer freelancer) {
 		freelancerRepository.save(freelancer);

@@ -156,6 +156,10 @@ public class Freelancer {
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
 	}
+	
+	public int getOffersSize() {
+		return this.offers.size();
+	}
 
 	@Override
 	public String toString() { // not updated, update when necessary

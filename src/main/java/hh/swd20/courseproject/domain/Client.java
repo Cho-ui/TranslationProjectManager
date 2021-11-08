@@ -98,6 +98,10 @@ public class Client {
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
 	}
+	
+	public int getOffersSize() {
+		return this.offers.size();
+	}
 
 	@Override
 	public String toString() {

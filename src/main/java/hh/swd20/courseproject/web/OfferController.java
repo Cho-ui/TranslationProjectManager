@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -62,13 +63,38 @@ public class OfferController {
 		return "redirect:brokermain"; //brokermain.html
 	}
 	
+	@PostMapping("/updateoffer")
+	public String updateOffer(@ModelAttribute Offer offer) {
+		
+		Offer updatedOffer = offer;
+		
+		/* gets the initial form deadline date value,
+		 * converts it to GMT +2(Helsinki) and saves it to the offer
+		 */
+		updatedOffer.setDeadlineDate(ZonedDateTime.of
+				(LocalDateTime.parse(offer.getFormDeadline()),
+				ZoneId.of("Europe/Helsinki")));
+		
+		offerRepository.save(updatedOffer);
+		
+		return "redirect:brokermain"; //brokermain.html
+	}
+	
 	@GetMapping("/editoffer/{id}")
 	public String editOffer(@PathVariable("id") Long offerId, Model model) {
 		
 		model.addAttribute("offer", offerRepository.findById(offerId).get());
+		model.addAttribute("clients", clientRepository.findAll());
 		
 		return "editoffer"; //editoffer.html
 		
+	}
+	
+	@GetMapping("/deleteoffer/{id}")
+	public String deleteOffer(@PathVariable("id") Long offerId) {
+		offerRepository.deleteById(offerId);
+		
+		return "redirect:../brokermain"; //brokermain.html
 	}
 	
 	@GetMapping("/unassign/{id}")
