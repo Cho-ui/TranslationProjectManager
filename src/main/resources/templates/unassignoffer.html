@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Unassign Offer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Offer Info</h1>
+	
+	<table>
+		<tr>
+		<th>Client</th>
+		<th>Word Count</th>
+		<th>Price(€)</th>
+		<th>Subject</th>
+		<th>Requirements</th>
+		<th>Source Language</th>
+		<th>Target Language</th>
+		<th>Deadline(GMT +2)</th>
+		<th>Status</th> <!-- Luo metodi offeriin, booleanien pohjalta -->
+		</tr>
+		<tr th:object="${offer}">
+			<td th:text="*{client.clientName}">Client</td>
+			<td th:text="*{wordCount}">Word Count</td>
+			<td th:text="*{price}">Price</td>
+			<td th:text="*{subject}">Subject</td>
+			<td th:text="*{requirements}">Requirements</td>
+			<td th:text="*{sourceLanguage}">Source Language</td>
+			<td th:text="*{targetLanguage}">Target Language</td>
+			<td th:text="*{formattedDeadline()}">Deadline(GMT +2)</td>
+			<td th:text="*{offerStatus}">Status</td>
+		</tr>
+	</table>
+	
+	<h2>Unassign Offer</h2>
+	<!-- Tähän linkki friikun omalle view-sivulle -->
+	Assigned to <div th:text="${offer.freelancer.freelancerFName} 
+			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</div>
+	
+	<!-- Unassign-nappi tähän -->
+	<br/>
+	<a href="/brokermain">Return without saving</a>
+</body>
+</html>

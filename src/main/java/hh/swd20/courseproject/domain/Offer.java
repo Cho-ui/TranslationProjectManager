@@ -2,6 +2,7 @@ package hh.swd20.courseproject.domain;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,18 +26,19 @@ public class Offer {
 	private String sourceLanguage;
 	private String targetLanguage;
 	private String formDeadline;
-	private String requirements; // not in constructor yet
-	private boolean assigned; // not in constructor yet
-	private boolean completed; // not in constructor yet
+	private String requirements;
+	private boolean assigned; // not in constructor
+	private boolean completed; // not in constructor
 
 	private ZonedDateTime deadlineDate;
 	
-	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") // not in constructor yet
+	// not in constructor, edit according to deadlinedate
+	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") 
 	private LocalDateTime completionDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "freelancerId")
-	private Freelancer freelancer; // not in constructor yet
+	private Freelancer freelancer; // not in constructor
 	
 	@ManyToOne
 	@JoinColumn(name = "clientId")
@@ -181,6 +183,28 @@ public class Offer {
 
 	public void setFreelancer(Freelancer freelancer) {
 		this.freelancer = freelancer;
+	}
+	
+	public String offerStatus() {
+		if (assigned && completed) {
+			return "Completed";
+		} else if (assigned) {
+			return "Assigned";
+		} else {
+			return "Unassigned";
+		}
+	}
+	
+	public String formattedDeadline() {
+		if (deadlineDate != null) {
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm z");
+			String formattedDeadline = deadlineDate.format(formatter);
+			
+			return formattedDeadline;
+		}
+		
+		return "";
 	}
 
 	@Override // not updated, update when necessary

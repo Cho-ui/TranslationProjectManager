@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import hh.swd20.courseproject.domain.Client;
@@ -30,10 +32,30 @@ public class ClientController {
 		return "addclient"; //addclient.html
 	}
 	
-	@PostMapping("saveclient")
+	@PostMapping("/saveclient")
 	public String saveClient(Client client) {
 		clientRepository.save(client);
 		return "redirect:brokermain"; //brokermain.html
+	}
+	
+	@GetMapping("/editclient/{id}")
+	public String editClient(@PathVariable("id") Long clientId, Model model) {
+		
+		model.addAttribute("client", clientRepository.findById(clientId).get());
+		
+		return "editclient"; //editclient.html
+		
+	}
+	
+	@PostMapping("/updateclient")
+	public String updateClient(@ModelAttribute Client client) {
+		
+		Client updatedClient = client;
+		
+		clientRepository.save(updatedClient);
+		
+		return "redirect:brokermain"; //brokermain.html
+		
 	}
 
 }

@@ -62,23 +62,8 @@ public class FreelancerController {
 		 * and create a Language object list to be passed in the model
 		 */
 		
-		ArrayList<String> freelancerLanguages = 
-				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
-		
-		List<Language> addLanguages = new ArrayList<Language>();
-		List<Language> removeLanguages = new ArrayList<Language>();
-		
-		for (Language language : languageRepository.findAll()) {
-			if (!freelancerLanguages.contains(language.getLanguageName())) {
-				addLanguages.add(language);
-			}
-		}
-		
-		for (Language language : languageRepository.findAll()) {
-			if (freelancerLanguages.contains(language.getLanguageName())) {
-				removeLanguages.add(language);
-			}
-		}
+		List<Language> addLanguages = addLanguages(freelancerId);
+		List<Language> removeLanguages = removeLanguages(freelancerId);
 		
 		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
 		model.addAttribute("addlanguages", addLanguages);
@@ -110,23 +95,8 @@ public class FreelancerController {
 		 * and create a Language object list to be passed in the model
 		 */
 		
-		ArrayList<String> freelancerLanguages = 
-				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
-		
-		List<Language> addLanguages = new ArrayList<Language>();
-		List<Language> removeLanguages = new ArrayList<Language>();
-		
-		for (Language language : languageRepository.findAll()) {
-			if (!freelancerLanguages.contains(language.getLanguageName())) {
-				addLanguages.add(language);
-			}
-		}
-		
-		for (Language language : languageRepository.findAll()) {
-			if (freelancerLanguages.contains(language.getLanguageName())) {
-				removeLanguages.add(language);
-			}
-		}
+		List<Language> addLanguages = addLanguages(freelancerId);
+		List<Language> removeLanguages = removeLanguages(freelancerId);
 		
 		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
 		model.addAttribute("addlanguages", addLanguages);
@@ -160,7 +130,7 @@ public class FreelancerController {
 		
 	}
 	
-	@GetMapping("/edit/{id}")
+	@GetMapping("/editfreelancer/{id}")
 	public String editFreelancer(@PathVariable("id") Long freelancerId, Model model) {
 		
 		/* add:
@@ -174,24 +144,9 @@ public class FreelancerController {
 		 * compare them to all available languages
 		 * and create a Language object list to be passed in the model
 		 */
-		
-		ArrayList<String> freelancerLanguages = 
-				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
-		
-		List<Language> addLanguages = new ArrayList<Language>();
-		List<Language> removeLanguages = new ArrayList<Language>();
-		
-		for (Language language : languageRepository.findAll()) {
-			if (!freelancerLanguages.contains(language.getLanguageName())) {
-				addLanguages.add(language);
-			}
-		}
-		
-		for (Language language : languageRepository.findAll()) {
-			if (freelancerLanguages.contains(language.getLanguageName())) {
-				removeLanguages.add(language);
-			}
-		}
+						
+		List<Language> addLanguages = addLanguages(freelancerId);
+		List<Language> removeLanguages = removeLanguages(freelancerId);		
 		
 		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
 		model.addAttribute("addlanguages", addLanguages);
@@ -215,6 +170,39 @@ public class FreelancerController {
 		offerRepository.save(offerAssign);
 		
 		return "redirect:brokermain"; // brokermain.html
+	}
+	
+	// addLanguages- and removeLanguages-list methods
+	private List<Language> addLanguages(Long freelancerId) {
+		
+		ArrayList<String> freelancerLanguages = 
+				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
+
+		List<Language> addLanguages = new ArrayList<Language>();
+		
+		for (Language language : languageRepository.findAll()) {
+			if (!freelancerLanguages.contains(language.getLanguageName())) {
+				addLanguages.add(language);
+			}
+		}
+		
+		return addLanguages;
+	}
+	
+	private List<Language> removeLanguages(Long freelancerId) {
+		
+		ArrayList<String> freelancerLanguages = 
+				freelancerRepository.findById(freelancerId).get().getLanguagesAsStringArray();
+		
+		List<Language> removeLanguages = new ArrayList<Language>();
+		
+		for (Language language : languageRepository.findAll()) {
+			if (freelancerLanguages.contains(language.getLanguageName())) {
+				removeLanguages.add(language);
+			}
+		}
+		
+		return removeLanguages;
 	}
 
 }

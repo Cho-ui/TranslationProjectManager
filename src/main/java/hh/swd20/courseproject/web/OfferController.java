@@ -62,6 +62,26 @@ public class OfferController {
 		return "redirect:brokermain"; //brokermain.html
 	}
 	
+	@GetMapping("/editoffer/{id}")
+	public String editOffer(@PathVariable("id") Long offerId, Model model) {
+		
+		model.addAttribute("offer", offerRepository.findById(offerId).get());
+		
+		return "editoffer"; //editoffer.html
+		
+	}
+	
+	@GetMapping("/unassign/{id}")
+	public String unassignOffer(@PathVariable("id") Long offerId, Model model) {
+		
+		Offer offer = offerRepository.findById(offerId).get();
+		
+		model.addAttribute("offer", offer);
+		
+		return "unassignoffer"; //unassignoffer.html
+	}
+
+	
 	@GetMapping("/assign/{id}")
 	public String assignOffer(@PathVariable("id") Long offerId, Model model) {
 		
@@ -87,5 +107,4 @@ public class OfferController {
 		model.addAttribute("freelancers", suitableFreelancers);
 		return "assignoffer";
 	}
-	
 }

@@ -12,6 +12,7 @@
 			<th>Contact Name</th>
 			<th>Phone Number</th>
 			<th>E-Mail</th>
+			<th/>
 		</tr>
 		<tr th:each="client: ${clients}">
 			<td th:text="${client.clientName}">Client Name</td>
@@ -20,6 +21,7 @@
 				Name</td>
 			<td th:text="${client.clientContactPhone}">Phone Number</td>
 			<td th:text="${client.clientContactEmail}">Email</td>
+			<td><a th:href="@{/editclient/{id}(id=${client.clientId})}">Edit</a>
 		</tr>
 	</table>
 	<div>
@@ -36,6 +38,7 @@
 			<th>Target Language</th>
 			<th>Price</th>
 			<th>Assign</th>
+			<th/>
 		</tr>
 		<tr th:each="offer: ${unassignedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
@@ -44,7 +47,8 @@
 			<td th:text="${offer.sourceLanguage}">Source Language</td>
 			<td th:text="${offer.targetLanguage}">Target Language</td>
 			<td th:text="${offer.price}">Price</td>
-			<td><a th:href="@{/assign/{id}(id=${offer.offerId})}" method="post">Assign</a></td>
+			<td><a th:href="@{/assign/{id}(id=${offer.offerId})}">Assign</a></td>
+			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}">Edit</a></td>
 		</tr>
 	</table>
 	<div>
@@ -61,6 +65,8 @@
 			<th>Target Language</th>
 			<th>Price</th>
 			<th>Freelancer</th>
+			<th>Unassign</th>
+			<th/>
 		</tr>
 		<tr th:each="offer: ${assignedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
@@ -71,6 +77,9 @@
 			<td th:text="${offer.price}">Price</td>
 			<td th:text="${offer.freelancer.freelancerFName} 
 			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</td>
+			<!-- tähän väliin unassign -->
+			<td><a th:href="@{/unassign/{id}(id=${offer.offerId})}">Unassign</a></td>
+			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}">Edit</a></td>
 		</tr>
 	</table>
 	<h1>Freelancers</h1>
@@ -89,7 +98,7 @@
 		<td th:text="${freelancer.freelancerAddress}">Address</td>
 		<td th:text="${freelancer.freelancerEmail}">Email</td>
 		<td th:text="${freelancer.getLanguagesAsStrings()}">Languages</td>
-		<td><a th:href="@{/edit/{id}(id=${freelancer.freelancerId})}">Edit</a></td>
+		<td><a th:href="@{/editfreelancer/{id}(id=${freelancer.freelancerId})}">Edit</a></td>
 	</tr>
 	</table>
 	<div>
