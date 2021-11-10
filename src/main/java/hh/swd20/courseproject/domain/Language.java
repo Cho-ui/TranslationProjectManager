@@ -50,6 +50,10 @@ public class Language {
 	public void setFreelancers(Set<Freelancer> freelancers) {
 		this.freelancers = freelancers;
 	}
+	
+	public int getFreelancersSize() {
+		return this.freelancers.size();
+	}
 
 	@Override
 	public String toString() {

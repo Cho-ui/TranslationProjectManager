@@ -31,6 +31,26 @@
 	<br/>
 	<a href="/addclient">Add client</a>
 	</div>
+	<h1>Languages In Use</h1>
+	<table>
+	<tr>
+	<th>Language</th>
+	<th/>
+	<th/>
+	</tr>
+	<tr th:each="language: ${languages}">
+	<td th:text="${language.languageName}">Language Name</td>
+	<td><a th:href="@{/editlanguage/{id}(id=${language.languageId})}"
+	th:text="${language.getFreelancersSize()} > 0 ? '' : 'Edit'">Edit</a></td>
+	<td><a th:href="@{/deletelanguage/{id}(id=${language.languageId})}"
+	th:text="${language.getFreelancersSize()} > 0 ? '' : 'Delete'">Delete</a></td>
+	</tr>
+	</table>
+	<div>
+	<br/>
+	<a href="/addlanguage">Add language</a>
+	</div>
+	
 	<h1>Unassigned Work Offers</h1>
 	<table>
 		<tr>

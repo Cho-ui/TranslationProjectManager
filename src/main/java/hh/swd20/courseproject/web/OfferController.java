@@ -97,6 +97,18 @@ public class OfferController {
 		return "redirect:../brokermain"; //brokermain.html
 	}
 	
+	@PostMapping("/releaseoffer") 
+	public String releaseOffer(@ModelAttribute Offer offer) {
+		
+		Offer toRelease = offerRepository.findById(offer.getOfferId()).get();
+		toRelease.setAssigned(false);
+		toRelease.setFreelancer(null);
+		offerRepository.save(toRelease);
+		
+		return "redirect:brokermain"; //brokermain.html
+		
+	}
+	
 	@GetMapping("/unassign/{id}")
 	public String unassignOffer(@PathVariable("id") Long offerId, Model model) {
 		

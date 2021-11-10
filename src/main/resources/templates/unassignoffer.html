@@ -33,11 +33,17 @@
 	</table>
 	
 	<h2>Unassign Offer</h2>
-	<!-- Tähän linkki friikun omalle view-sivulle -->
-	Assigned to <div th:text="${offer.freelancer.freelancerFName} 
-			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</div>
 	
-	<!-- Unassign-nappi tähän -->
+	Assigned to <a th:href="@{/editfreelancer/{id}(id=${offer.freelancer.freelancerId})}"
+	 th:text="${offer.freelancer.freelancerFName} 
+			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</a>
+	<br/>
+	<br/>
+	<form th:object="${offer}" th:action="@{/releaseoffer}" action="#" method="post">
+	<label for="id"></label>
+	<input type="hidden" id="id" th:field="*{offerId}" readonly="readonly" />
+	<input type="submit" value="Unassign"></input>
+	</form>
 	<br/>
 	<a href="/brokermain">Return without saving</a>
 </body>
