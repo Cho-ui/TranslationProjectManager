@@ -8,6 +8,8 @@ public interface OfferRepository extends CrudRepository<Offer, Long> {
 	
 	public List<Offer> findByAssignedFalse();
 	public List<Offer> findByAssignedTrue();
-	public List<Offer> findByCompletedTrue();
+	public List<Offer> findByFreelancerAndAssignedTrue(Freelancer freelancer);
+	public List<Offer> findByFreelancerAndAssignedFalseAndCompletedTrue(Freelancer freelancer);
+	public List<Offer> findByAssignedFalseAndCompletedTrue();
 
 }

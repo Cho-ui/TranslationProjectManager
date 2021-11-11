@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Language {
 	
@@ -16,7 +18,8 @@ public class Language {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long languageId;
 	private String languageName;
-		
+	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "languages")
 	private Set<Freelancer> freelancers = new HashSet<>();
 	

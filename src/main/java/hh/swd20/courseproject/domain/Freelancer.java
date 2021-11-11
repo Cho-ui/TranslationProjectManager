@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Freelancer {
 	
@@ -29,6 +31,7 @@ public class Freelancer {
 	private String freelancerEmail;
 	private String freelanceLanguageField; // form field workaround variable
 	
+	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.MERGE }) // changed from ALL
 	@JoinTable(name = "Freelancer_Proficiency",
 	joinColumns = { @JoinColumn(name = "freelancerId") },
@@ -36,6 +39,7 @@ public class Freelancer {
 	)
 	Set<Language> languages = new HashSet<Language>();
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "freelancer") // another cascade type?
 	private List<Offer> offers;
 	

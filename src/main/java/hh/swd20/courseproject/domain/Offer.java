@@ -186,7 +186,7 @@ public class Offer {
 	}
 	
 	public String offerStatus() {
-		if (assigned && completed) {
+		if (!assigned && completed) {
 			return "Completed";
 		} else if (assigned) {
 			return "Assigned";

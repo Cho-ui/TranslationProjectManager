@@ -153,11 +153,23 @@ public class FreelancerController {
 		 */
 						
 		List<Language> addLanguages = addLanguages(freelancerId);
-		List<Language> removeLanguages = removeLanguages(freelancerId);		
+		List<Language> removeLanguages = removeLanguages(freelancerId);	
+		
+		// get all work offers assigned to freelancer
+		
+		List<Offer> assignedOffers = offerRepository.findByFreelancerAndAssignedTrue(
+				freelancerRepository.findById(freelancerId).get());
+				
+		// get all completed work offers
+		
+		List<Offer> completedOffers = offerRepository.findByFreelancerAndAssignedFalseAndCompletedTrue(
+				freelancerRepository.findById(freelancerId).get());
 		
 		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
 		model.addAttribute("addlanguages", addLanguages);
 		model.addAttribute("removelanguages", removeLanguages);
+		model.addAttribute("assignedoffers", assignedOffers);
+		model.addAttribute("completedoffers", completedOffers);
 				
 		return "editfreelancer"; //editfreelancer.html
 	}

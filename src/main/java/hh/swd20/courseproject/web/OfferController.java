@@ -103,22 +103,24 @@ public class OfferController {
 		Offer toRelease = offerRepository.findById(offer.getOfferId()).get();
 		toRelease.setAssigned(false);
 		toRelease.setFreelancer(null);
+		toRelease.setCompleted(false);
 		offerRepository.save(toRelease);
 		
 		return "redirect:brokermain"; //brokermain.html
 		
 	}
 	
-	@GetMapping("/unassign/{id}")
-	public String unassignOffer(@PathVariable("id") Long offerId, Model model) {
+	// tidy up?
+	@PostMapping("/completeoffer/{id}")
+	public String completeOffer(@PathVariable("id") Long offerId) {
 		
 		Offer offer = offerRepository.findById(offerId).get();
+		offer.setAssigned(false);
+		offer.setCompleted(true);
+		offerRepository.save(offer);
 		
-		model.addAttribute("offer", offer);
-		
-		return "unassignoffer"; //unassignoffer.html
+		return "redirect:../brokermain"; //brokermain.html
 	}
-
 	
 	@GetMapping("/assign/{id}")
 	public String assignOffer(@PathVariable("id") Long offerId, Model model) {

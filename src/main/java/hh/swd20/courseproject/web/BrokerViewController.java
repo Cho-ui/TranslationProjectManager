@@ -1,5 +1,6 @@
 package hh.swd20.courseproject.web;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,7 @@ public class BrokerViewController {
 		model.addAttribute("languages", languageRepository.findAll());
 		model.addAttribute("unassignedOffers", offerRepository.findByAssignedFalse());
 		model.addAttribute("assignedOffers", offerRepository.findByAssignedTrue());
+		model.addAttribute("completedOffers", offerRepository.findByAssignedFalseAndCompletedTrue());
 		model.addAttribute("clients", clientRepository.findAll());
 		model.addAttribute("freelancers", freelancerRepository.findAll());
 		return "brokermain"; // brokermain.html

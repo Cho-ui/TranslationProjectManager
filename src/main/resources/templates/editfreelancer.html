@@ -23,7 +23,61 @@
 			<td th:text="*{getLanguagesAsStrings()}">Languages</td>
 		</tr>
 	</table>
-	<br/>	
+	<br/>
+	
+	<h2>Assigned Work Offers</h2>
+	<table>
+		<tr>
+			<th>Client</th>
+			<th>Subject</th>
+			<th>Word Count</th>
+			<th>Source Language</th>
+			<th>Target Language</th>
+			<th>Price</th>
+			<th/>
+			<th/>
+		</tr>
+		<tr th:each="offer: ${assignedoffers}">
+			<td th:text="${offer.client.clientName}">Client Name</td>
+			<td th:text="${offer.subject}">Subject Matter</td>
+			<td th:text="${offer.wordCount}">Word Count</td>
+			<td th:text="${offer.sourceLanguage}">Source Language</td>
+			<td th:text="${offer.targetLanguage}">Target Language</td>
+			<td th:text="${offer.price}">Price</td>
+			<td>
+			<form th:object="${offer}" th:action="@{/completeoffer/{id}(id=${offer.offerId})}" 
+			action="#" method="post">
+			<input type="submit" value="Completed"></input>
+			</form>			
+			</td>
+			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}">Edit</a></td>
+			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
+		</tr>
+	</table>
+	
+	<h2>Completed Work Offers</h2>
+	<table>
+		<tr>
+			<th>Client</th>
+			<th>Subject</th>
+			<th>Word Count</th>
+			<th>Source Language</th>
+			<th>Target Language</th>
+			<th>Price</th>
+			<th/>
+			<th/>
+		</tr>
+		<tr th:each="offer: ${completedoffers}">
+			<td th:text="${offer.client.clientName}">Client Name</td>
+			<td th:text="${offer.subject}">Subject Matter</td>
+			<td th:text="${offer.wordCount}">Word Count</td>
+			<td th:text="${offer.sourceLanguage}">Source Language</td>
+			<td th:text="${offer.targetLanguage}">Target Language</td>
+			<td th:text="${offer.price}">Price</td>
+			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}">Edit</a></td>
+			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
+		</tr>
+	</table>
 	
 	<h2>Add or remove language proficiencies</h2>
 	

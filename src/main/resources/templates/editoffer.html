@@ -33,6 +33,19 @@
 	</table>
 	
 	
+	<form th:object="${offer}" 
+	th:action="@{/completeoffer/{id}(id=${offer.offerId})}" 
+	action="#" method="post">
+	<input type="submit" value="Completed"></input>
+	</form>
+	<div style="clear: both; display: block; height: 10px;"></div>
+	<form th:object="${offer}" 
+	th:action="@{/releaseoffer}" action="#" method="post">
+	<label for="id"></label>
+	<input type="hidden" id="id" th:field="*{offerId}" readonly="readonly" />
+	<input type="submit" value="Release"></input>
+	</form>
+	
 	<h2>Edit Offer</h2>
 	
 	<div>
