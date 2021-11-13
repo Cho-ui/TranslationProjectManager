@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,14 +23,23 @@ public class Offer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long offerId;
 	
+	// not null
 	private int wordCount;
+	
+	// @Pattern(regexp = "^[0-9]{1,2}\\.[0-9]{1,2}")
 	private double price;
+	
+	// not null, size
 	private String subject;
+	// not null
 	private String sourceLanguage;
+	// not null
 	private String targetLanguage;
 	
 	@JsonIgnore
 	private String formDeadline;
+	
+	// size
 	private String requirements;
 	private boolean assigned; // not in constructor
 	private boolean completed; // not in constructor

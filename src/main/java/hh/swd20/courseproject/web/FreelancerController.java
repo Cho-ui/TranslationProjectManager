@@ -92,12 +92,16 @@ public class FreelancerController {
 	public String addFreeLancerLanguage(@PathVariable("id") Long freelancerId,
 			@ModelAttribute Freelancer freelancer, Model model) {
 		
-		/* This saves the added language to the freelancer in the db */
+		/* This saves the added language to the freelancer in the db
+		 * if the dropdown selection isn't empty */
 		
 		Language toAdd = languageRepository.findByLanguageName(freelancer.getFreelanceLanguageField());
+		
+		if (toAdd != null) {
 		Freelancer fromRepo = freelancerRepository.findById(freelancerId).get();
 		fromRepo.getLanguages().add(toAdd);
 		freelancerRepository.save(fromRepo);
+		}
 		
 		/* add:
 		 * get the language proficiencies the freelancer has,
@@ -125,12 +129,16 @@ public class FreelancerController {
 	public String deleteFreeLancerLanguage(@PathVariable("id") Long freelancerId,
 			@ModelAttribute Freelancer freelancer, Model model) {
 		
-		/* This deletes the chosen language from the freelancer in the db */
+		/* This deletes the chosen language from the freelancer in the db
+		 * if the language selected for deletion is not empty */
 		
 		Language toDelete = languageRepository.findByLanguageName(freelancer.getFreelanceLanguageField());
+		
+		if (toDelete != null) {
 		Freelancer fromRepo = freelancerRepository.findById(freelancerId).get();
 		fromRepo.getLanguages().remove(toDelete);
 		freelancerRepository.save(fromRepo);
+		}
 		
 		/* add:
 		 * get the language proficiencies the freelancer has,
@@ -227,6 +235,7 @@ public class FreelancerController {
 	public String assignFreelancer(@ModelAttribute Offer offer, 
 			@ModelAttribute Freelancer freelancer) {
 		
+		if (freelancer.getFreelancerId() != null) {
 		Long offerId = offer.getOfferId();
 		Offer offerAssign = offerRepository.findById(offerId).get();	
 		Long freelancerId = freelancer.getFreelancerId();
@@ -236,6 +245,7 @@ public class FreelancerController {
 		offerAssign.setAssigned(true);
 		
 		offerRepository.save(offerAssign);
+		}
 		
 		return "redirect:brokermain"; // brokermain.html
 	}

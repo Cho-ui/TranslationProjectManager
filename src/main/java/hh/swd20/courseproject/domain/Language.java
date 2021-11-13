@@ -17,6 +17,8 @@ public class Language {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long languageId;
+	
+	// not null, size, pattern
 	private String languageName;
 	
 	@JsonIgnore

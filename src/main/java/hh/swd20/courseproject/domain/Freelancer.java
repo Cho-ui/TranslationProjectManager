@@ -24,11 +24,22 @@ public class Freelancer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long freelancerId;
+	
+	// size, pattern?
 	private String freelancerFName;
+	
+	// size, pattern?
 	private String freelancerLName;
+	
+	// size
 	private String freelancerPhone;
+	
+	// size, pattern?
 	private String freelancerAddress;
+	
+	// size, pattern?
 	private String freelancerEmail;
+	
 	@JsonIgnore
 	private String freelanceLanguageField; // form field workaround variable
 	

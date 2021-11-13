@@ -141,9 +141,9 @@ public class OfferController {
 	}
 	
 	@PostMapping("/updateoffer")
-	public String updateOffer(@ModelAttribute Offer offer) {
+	public String updateOffer(Offer offer) {
 		
-		Offer updatedOffer = offer;
+		Offer updatedOffer = offerRepository.findById(offer.getOfferId()).get();
 		
 		/* gets the initial form deadline date value,
 		 * converts it to GMT +2(Helsinki) and saves it to the offer

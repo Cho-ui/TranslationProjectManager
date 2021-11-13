@@ -17,10 +17,20 @@ public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long clientId;
+	
+	// not null (pattern?)
 	private String clientName;
+	
+	// size (pattern?)
 	private String clientContactFName;
+	
+	// size (pattern?)
 	private String clientContactLName;
+	
+	// size 
 	private String clientContactPhone;
+	
+	// size (pattern?)
 	private String clientContactEmail;
 	
 	@JsonIgnore
