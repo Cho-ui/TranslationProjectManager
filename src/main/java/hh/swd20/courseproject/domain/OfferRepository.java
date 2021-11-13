@@ -6,10 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OfferRepository extends CrudRepository<Offer, Long> {
 	
-	public List<Offer> findByAssignedFalse();
-	public List<Offer> findByAssignedTrue();
+	public List<Offer> findByAssignedFalse(); // not in use?
+	public List<Offer> findByAssignedTrue(); // not in use?
 	public List<Offer> findByFreelancerAndAssignedTrue(Freelancer freelancer);
 	public List<Offer> findByFreelancerAndAssignedFalseAndCompletedTrue(Freelancer freelancer);
 	public List<Offer> findByAssignedFalseAndCompletedTrue();
+	public List<Offer> findByAssignedFalseAndCompletedFalse();
+	public List<Offer> findByAssignedTrueAndCompletedFalse();
 
 }

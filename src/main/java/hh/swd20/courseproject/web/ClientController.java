@@ -1,21 +1,79 @@
 package hh.swd20.courseproject.web;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import hh.swd20.courseproject.domain.Client;
 import hh.swd20.courseproject.domain.ClientRepository;
+import hh.swd20.courseproject.domain.Offer;
 
+
+// CrossOrigin-annotaatio?
 @Controller
 public class ClientController {
 	
 	@Autowired
 	private ClientRepository clientRepository;
+	
+	/** Manually built REST endpoints **/
+	
+	// RESTful service for getting all clients
+	@GetMapping("/clients")
+	public @ResponseBody List<Client> clientListRest() {
+		return (List<Client>) clientRepository.findAll();
+	}
+	
+	// RESTful service for getting a single client by id
+	@GetMapping("/clients/{id}")
+	public @ResponseBody Optional<Client> getClientRest(@PathVariable("id") Long clientId) {
+		return clientRepository.findById(clientId);
+	}
+	
+	// RESTful service for adding a client
+	@PostMapping("/clients")
+	public @ResponseBody Client saveClientRest(@RequestBody Client client) {
+		return clientRepository.save(client);
+	}
+	
+	/* RESTful service for updating a client, maps out traits to an existing
+	 * client, or if the clientId is not found, saves the json-object as a new client
+	 */
+	
+	@PutMapping("/clients/{id}")
+	public @ResponseBody Client updateClientRest(@PathVariable("id") Long clientId, 
+			@RequestBody Client updatedClient) {
+		return clientRepository.findById(clientId)
+				.map(client -> {
+					client.setClientName(updatedClient.getClientName());
+					client.setClientContactFName(updatedClient.getClientContactFName());
+					client.setClientContactLName(updatedClient.getClientContactLName());
+					client.setClientContactPhone(updatedClient.getClientContactPhone());
+					client.setClientContactEmail(updatedClient.getClientContactEmail());
+					return clientRepository.save(client);
+				})
+				.orElseGet(() -> {
+					return clientRepository.save(updatedClient);
+				});
+	}
+	
+	// RESTful service for deleting a client and returning an updated list of clients
+	@DeleteMapping("/clients/{id}")
+	public @ResponseBody List<Client> deleteClientRest(@PathVariable("id") Long clientId) {
+		clientRepository.deleteById(clientId);
+		return (List<Client>) clientRepository.findAll();
+	}
 	
 	/** Manually built test endpoints for database construction **/
 	

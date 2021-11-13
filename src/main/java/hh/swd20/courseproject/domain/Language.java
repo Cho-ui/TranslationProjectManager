@@ -54,6 +54,7 @@ public class Language {
 		this.freelancers = freelancers;
 	}
 	
+	@JsonIgnore // not included in REST response
 	public int getFreelancersSize() {
 		return this.freelancers.size();
 	}

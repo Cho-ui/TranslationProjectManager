@@ -6,14 +6,19 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import hh.swd20.courseproject.domain.ClientRepository;
 import hh.swd20.courseproject.domain.Freelancer;
@@ -32,6 +37,78 @@ public class OfferController {
 	
 	@Autowired
 	private FreelancerRepository freelancerRepository;
+	
+	/** Manually built REST endpoints **/
+	
+	// RESTful service for getting all offers
+	@GetMapping("/offers")
+	public @ResponseBody List<Offer> offerListRest() {
+		return (List<Offer>) offerRepository.findAll();
+	}
+	
+	// RESTful service for getting unassigned offers
+	@GetMapping("/offers/unassigned")
+	public @ResponseBody List<Offer> unassignedOfferListRest() {
+		return (List<Offer>) offerRepository.findByAssignedFalseAndCompletedFalse();
+	}
+	
+	// RESTful service for getting assigned offers
+	@GetMapping("/offers/assigned")
+	public @ResponseBody List<Offer> assignedOfferListRest() {
+		return (List<Offer>) offerRepository.findByAssignedTrueAndCompletedFalse();
+	}
+	
+	// RESTful service for getting completed offers
+	@GetMapping("/offers/completed")
+	public @ResponseBody List<Offer> completedOfferListRest() {
+		return (List<Offer>) offerRepository.findByAssignedFalseAndCompletedTrue();
+	}
+	
+	// RESTful service for getting a single offer by id
+	@GetMapping("/offers/{id}")
+	public @ResponseBody Optional<Offer> getOfferRest(@PathVariable("id") Long offerId) {
+		return offerRepository.findById(offerId);
+	}
+	
+	// RESTful service for adding an offer
+	@PostMapping("/offers")
+	public @ResponseBody Offer saveOfferRest(@RequestBody Offer offer) {
+		return offerRepository.save(offer);
+	}
+	
+	/* RESTful service for updating a client, maps out traits to an existing
+	 * client, or if the clientId is not found, saves the json-object as a new client
+	 */
+	
+	@PutMapping("/offers/{id}")
+	public @ResponseBody Offer updateOfferRest(@PathVariable("id") Long offerId,
+			@RequestBody Offer updatedOffer) {
+		return offerRepository.findById(offerId)
+				.map(offer -> {
+					offer.setClient(updatedOffer.getClient());
+					offer.setWordCount(updatedOffer.getWordCount());
+					offer.setPrice(updatedOffer.getPrice());
+					offer.setSubject(updatedOffer.getSubject());
+					offer.setSourceLanguage(updatedOffer.getSourceLanguage());
+					offer.setTargetLanguage(updatedOffer.getTargetLanguage());
+					offer.setRequirements(updatedOffer.getRequirements());
+					offer.setAssigned(updatedOffer.isAssigned());
+					offer.setCompleted(updatedOffer.isCompleted());
+					offer.setDeadlineDate(updatedOffer.getDeadlineDate());
+					offer.setCompletionDate(updatedOffer.getCompletionDate());
+					return offerRepository.save(offer);
+				})
+				.orElseGet(() -> {
+					return offerRepository.save(updatedOffer);
+				});
+	}
+	
+	// RESTful service for deleting an offer and returning an updated list of offers
+	@DeleteMapping("/offers/{id}")
+	public @ResponseBody List<Offer> deleteOfferRest(@PathVariable("id") Long offerId) {
+		offerRepository.deleteById(offerId);
+		return (List<Offer>) offerRepository.findAll();
+	}
 	
 	/** Manually built test endpoints for database construction **/
 	

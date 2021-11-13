@@ -29,6 +29,7 @@ public class Freelancer {
 	private String freelancerPhone;
 	private String freelancerAddress;
 	private String freelancerEmail;
+	@JsonIgnore
 	private String freelanceLanguageField; // form field workaround variable
 	
 	@JsonIgnore
@@ -118,6 +119,7 @@ public class Freelancer {
 		this.languages = languages;
 	}
 	
+	@JsonIgnore
 	public String getLanguagesAsStrings() {
 		
 		ArrayList<String> languages = getLanguagesAsStringArray();
@@ -134,6 +136,7 @@ public class Freelancer {
 		
 	}
 	
+	@JsonIgnore
 	public ArrayList<String> getLanguagesAsStringArray() {
 		
 		ArrayList<String> proficiencies = new ArrayList<String>();
@@ -161,6 +164,7 @@ public class Freelancer {
 		this.offers = offers;
 	}
 	
+	@JsonIgnore
 	public int getOffersSize() {
 		return this.offers.size();
 	}

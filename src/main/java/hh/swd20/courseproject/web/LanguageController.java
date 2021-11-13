@@ -1,13 +1,22 @@
 package hh.swd20.courseproject.web;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import hh.swd20.courseproject.domain.Freelancer;
 import hh.swd20.courseproject.domain.Language;
 import hh.swd20.courseproject.domain.LanguageRepository;
 
@@ -16,6 +25,64 @@ public class LanguageController {
 	
 	@Autowired
 	private LanguageRepository languageRepository;
+	
+	/** Manually built REST endpoints **/
+	
+	// RESTful service for getting all languages
+	@GetMapping("/languages")
+	public @ResponseBody List<Language> languageListRest() {
+		return (List<Language>) languageRepository.findAll();
+	}
+	
+	// RESTful service for getting a single language by id
+	@GetMapping("/languages/{id}")
+	public @ResponseBody Optional<Language> getLanguageRest(@PathVariable("id") Long languageId) {
+		return languageRepository.findById(languageId);
+	}
+	
+	// RESTful service for adding a language
+	@PostMapping("/languages")
+	public @ResponseBody Language saveLanguageRest(@RequestBody Language language) {
+		return languageRepository.save(language);
+	}
+	
+	/* RESTful service for updating a client, maps out traits to an existing
+	 * client, or if the clientId is not found, saves the json-object as a new client
+	 */
+	
+	@PutMapping("/languages/{id}")
+	public @ResponseBody Language updateLanguageRest(@PathVariable("id") Long languageId,
+			@RequestBody Language updatedLanguage) {
+		return languageRepository.findById(languageId)
+				.map(language -> {
+					language.setLanguageName(updatedLanguage.getLanguageName());
+					return languageRepository.save(language);
+				})
+				.orElseGet(() -> {
+					return languageRepository.save(updatedLanguage);
+				});
+	}
+	
+	// RESTful service for deleting a language
+	@DeleteMapping("/languages/{id}")
+	public @ResponseBody List<Language> deleteLanguageRest(@PathVariable("id") Long languageId) {
+
+		// gets all the freelancers that have the language as a proficiency
+		Set<Freelancer> freelancers = languageRepository.findById(languageId).get().getFreelancers();
+		
+		// removes the proficiency from all of the found freelancers
+		for (Freelancer freelancer : freelancers) {
+			Set<Language> languages = freelancer.getLanguages();
+			languages.remove(languageRepository.findById(languageId).get());
+			freelancer.setLanguages(languages);
+		}
+		
+		// deletes the language and returns an updated list of languages in use
+		languageRepository.deleteById(languageId);
+		return (List<Language>) languageRepository.findAll();
+	}
+	
+	/** manually built test endpoints for database construction **/
 	
 	@GetMapping("/addlanguage")
 	public String addLanguage(Model model) {

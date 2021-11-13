@@ -31,8 +31,8 @@ public class BrokerViewController {
 	public String brokerMain(Model model) {
 		
 		model.addAttribute("languages", languageRepository.findAll());
-		model.addAttribute("unassignedOffers", offerRepository.findByAssignedFalse());
-		model.addAttribute("assignedOffers", offerRepository.findByAssignedTrue());
+		model.addAttribute("unassignedOffers", offerRepository.findByAssignedFalseAndCompletedFalse());
+		model.addAttribute("assignedOffers", offerRepository.findByAssignedTrueAndCompletedFalse());
 		model.addAttribute("completedOffers", offerRepository.findByAssignedFalseAndCompletedTrue());
 		model.addAttribute("clients", clientRepository.findAll());
 		model.addAttribute("freelancers", freelancerRepository.findAll());

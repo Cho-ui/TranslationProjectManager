@@ -2,15 +2,20 @@ package hh.swd20.courseproject.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import hh.swd20.courseproject.domain.Freelancer;
 import hh.swd20.courseproject.domain.FreelancerRepository;
@@ -30,6 +35,50 @@ public class FreelancerController {
 	
 	@Autowired
 	private LanguageRepository languageRepository;
+	
+	/** Manually built REST endpoints **/
+	
+	// RESTful service for getting all freelancers
+	@GetMapping("/freelancers")
+	public @ResponseBody List<Freelancer> freelancerListRest() {
+		return (List<Freelancer>) freelancerRepository.findAll();
+	}
+	
+	// RESTful service for getting a single freelancer by id
+	@GetMapping("/freelancers/{id}")
+	public @ResponseBody Optional<Freelancer> getFreelancerRest(@PathVariable("id") Long freelancerId) {
+		return freelancerRepository.findById(freelancerId);
+	}
+	
+	// RESTful service for adding a freelancer
+	@PostMapping("/freelancers")
+	public @ResponseBody Freelancer saveFreelancerRest(@RequestBody Freelancer freelancer) {
+		return freelancerRepository.save(freelancer);
+	}
+	
+	// RESTful service for updating a freelancer
+	@PutMapping("/freelancers/{id}")
+	public @ResponseBody Freelancer updateFreelancerRest(@PathVariable("id") Long freelancerId, 
+			@RequestBody Freelancer updatedFreelancer) {
+		return freelancerRepository.findById(freelancerId)
+				.map(freelancer -> {
+					freelancer.setFreelancerFName(updatedFreelancer.getFreelancerFName());
+					freelancer.setFreelancerLName(updatedFreelancer.getFreelancerLName());
+					freelancer.setFreelancerPhone(updatedFreelancer.getFreelancerPhone());
+					freelancer.setFreelancerEmail(updatedFreelancer.getFreelancerEmail());
+					return freelancerRepository.save(freelancer);
+				})
+				.orElseGet(() -> {
+					return freelancerRepository.save(updatedFreelancer);
+				});	
+	}
+	
+	// RESTful service for deleting a freelancer and returning an updated list of freelancers
+	@DeleteMapping("/freelancers/{id}")
+	public @ResponseBody List<Freelancer> deleteFreelancerRest(@PathVariable("id") Long freelancerId) {
+		freelancerRepository.deleteById(freelancerId);
+		return (List<Freelancer>) freelancerRepository.findAll();
+	}
 	
 	/** Manually built test endpoints for database construction **/
 	

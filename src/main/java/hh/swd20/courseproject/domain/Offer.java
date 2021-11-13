@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Offer {
 	
@@ -25,6 +27,8 @@ public class Offer {
 	private String subject;
 	private String sourceLanguage;
 	private String targetLanguage;
+	
+	@JsonIgnore
 	private String formDeadline;
 	private String requirements;
 	private boolean assigned; // not in constructor
@@ -32,7 +36,7 @@ public class Offer {
 
 	private ZonedDateTime deadlineDate;
 	
-	// not in constructor, edit according to deadlinedate
+	// not in constructor, edit according to deadlinedate if you have time
 	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") 
 	private LocalDateTime completionDate;
 	
@@ -67,7 +71,7 @@ public class Offer {
 		this.targetLanguage = targetLanguage;
 		this.requirements = requirements;
 		this.formDeadline = formDeadline;					
-			}
+	}
 
 	public Offer() {
 		super();
