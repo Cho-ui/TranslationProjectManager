@@ -10,7 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,28 +26,36 @@ public class Offer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long offerId;
 	
-	// not null
+	@NotNull(message = "An offer must have a word count")
 	private int wordCount;
 	
-	// @Pattern(regexp = "^[0-9]{1,2}\\.[0-9]{1,2}")
+	@NotNull(message = "An offer must have a set price")
 	private double price;
-	
-	// not null, size
+
+	@NotEmpty(message = "An offer must have a subject")
+	@Size(min=2, max=30, message = "Subject must be stated in 2-30 characters")
 	private String subject;
-	// not null
+	
+	@NotEmpty(message = "An offer must have a source language")
+	@Size(min=2, max=30, message = "Language name must be 2-30 characters long")
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ()\\.\\s]+", message = "Characters A-Z, ÜÅÄÖÆØ, and ( ) . are permitted")
 	private String sourceLanguage;
-	// not null
+	
+	@NotEmpty(message = "An offer must have a target language")
+	@Size(min=2, max=30, message = "Language name must be 2-30 characters long")
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ()\\.\\s]+", message = "Characters A-Z, ÜÅÄÖÆØ, and ( ) . are permitted")
 	private String targetLanguage;
 	
 	@JsonIgnore
-	private String formDeadline;
+	private String formDeadline; // thymeleaf workaround DB variable
 	
-	// size
+	@Size(max=255, message = "Requirements need to be specified in 255 characters")
 	private String requirements;
+	
 	private boolean assigned; // not in constructor
 	private boolean completed; // not in constructor
 
-	private ZonedDateTime deadlineDate;
+	private ZonedDateTime deadlineDate; // not in constructor
 	
 	// not in constructor, edit according to deadlinedate if you have time
 	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") 
@@ -221,7 +232,7 @@ public class Offer {
 		return "";
 	}
 
-	@Override // not updated, update when necessary
+	@Override // not updated, update when necessary, at least with deadline
 	public String toString() {
 		return "Offer [wordCount=" + wordCount + ", price=" + price + ", subject=" + subject + ", sourceLanguage="
 				+ sourceLanguage + ", targetLanguage=" + targetLanguage + ", client=" + client + "]";

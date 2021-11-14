@@ -3,12 +3,14 @@ package hh.swd20.courseproject.web;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import hh.swd20.courseproject.domain.Client;
 import hh.swd20.courseproject.domain.ClientRepository;
-import hh.swd20.courseproject.domain.Offer;
 
 
 // CrossOrigin-annotaatio?
@@ -84,18 +85,26 @@ public class ClientController {
 		return "clientlist"; // clientlist.html
 	}
 	
+	// redirects to add client form with a new client object
 	@GetMapping("/addclient")
 	public String addClient(Model model) {
 		model.addAttribute("client", new Client());
 		return "addclient"; //addclient.html
 	}
 	
+	// saves a new client from the add client form, if valid
 	@PostMapping("/saveclient")
-	public String saveClient(Client client) {
+	public String saveClient(@Valid Client client, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			return "addclient";
+		} else {
 		clientRepository.save(client);
 		return "redirect:brokermain"; //brokermain.html
+		}
 	}
 	
+	// opens the client edit-form, sends a client object based on client id to it
 	@GetMapping("/editclient/{id}")
 	public String editClient(@PathVariable("id") Long clientId, Model model) {
 		
@@ -105,17 +114,20 @@ public class ClientController {
 		
 	}
 	
+	// updates an existing client through the edit form, if valid
 	@PostMapping("/updateclient")
-	public String updateClient(@ModelAttribute Client client) {
+	public String updateClient(@Valid Client client, BindingResult bindingResult) {
 		
-		Client updatedClient = client;
-		
-		clientRepository.save(updatedClient);
-		
-		return "redirect:brokermain"; //brokermain.html
-		
+		if (bindingResult.hasErrors()) {
+			return "editclient";
+		} else {
+			Client updatedClient = client;
+			clientRepository.save(updatedClient);
+			return "redirect:brokermain"; //brokermain.html	
+		}		
 	}
 	
+	// deletes a client
 	@GetMapping("/deleteclient/{id}")
 	public String deleteClient(@PathVariable("id") Long clientId) {
 		clientRepository.deleteById(clientId);

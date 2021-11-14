@@ -12,6 +12,7 @@
 	<input type="hidden" id="id" th:field="*{languageId}" readonly="readonly" />
 	<label for="languageName">Language Name:</label>
 			<input type="text" id="languageName" th:field="*{languageName}" />
+			<div th:if="${#fields.hasErrors('languageName')}" th:errors="*{languageName}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<input type="submit" value="Save"></input>
 	</form>

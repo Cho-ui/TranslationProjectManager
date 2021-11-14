@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -84,6 +86,7 @@ public class LanguageController {
 	
 	/** manually built test endpoints for database construction **/
 	
+	// gets the add language form, and gives it an empty new language
 	@GetMapping("/addlanguage")
 	public String addLanguage(Model model) {
 		
@@ -92,14 +95,19 @@ public class LanguageController {
 		return "addlanguage"; //addlanguage.html		
 	}
 	
+	// saves a new language, if valid
 	@PostMapping("/savelanguage")
-	public String saveLanguage(Language language) {
+	public String saveLanguage(@Valid Language language, BindingResult bindingResult) {
 		
-		languageRepository.save(language);
-		
-		return "redirect:brokermain"; //brokermain.html
+		if (bindingResult.hasErrors()) {
+			return "addlanguage";
+		} else {
+			languageRepository.save(language);
+			return "redirect:brokermain"; //brokermain.html	
+		}
 	}
 	
+	// gets the edit language form for the language specified by the id
 	@GetMapping("/editlanguage/{id}")
 	public String editLanguage(@PathVariable("id") Long languageId, Model model) {
 		
@@ -108,16 +116,20 @@ public class LanguageController {
 		return "editlanguage"; //editlanguage.html
 	}
 	
+	// updates a specified language, if valid
 	@PostMapping("/updatelanguage")
-	public String updateLanguage(@ModelAttribute Language language) {
+	public String updateLanguage(@Valid Language language, BindingResult bindingResult) {
 		
-		Language updateLanguage = language;
-		
-		languageRepository.save(updateLanguage);
-		
-		return "redirect:brokermain"; //brokermain.html
+		if (bindingResult.hasErrors()) {
+			return "editlanguage";
+		} else {
+			Language updateLanguage = language;
+			languageRepository.save(updateLanguage);
+			return "redirect:brokermain"; //brokermain.html	
+		}
 	}
 	
+	// deletes a specified language
 	@GetMapping("/deletelanguage/{id}")
 	public String deleteLanguage(@PathVariable("id") Long languageId) {
 		languageRepository.deleteById(languageId);

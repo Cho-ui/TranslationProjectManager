@@ -62,21 +62,27 @@
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="wordCount">Word Count:</label>
 			<input type="text" id="wordCount" th:field="*{wordCount}" />
+			<div th:if="${#fields.hasErrors('wordCount')}" th:errors="*{wordCount}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="price">Price(€):</label>
 			<input type="text" id="price" th:field="*{price}" />
+			<div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="subject">Subject:</label>
 			<input type="text" id="subject" th:field="*{subject}" />
+			<div th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="requirements">Requirements:</label>
 			<input type="text" id="requirements" th:field="*{requirements}" />
+			<div th:if="${#fields.hasErrors('requirements')}" th:errors="*{requirements}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="sourceLanguage">Source Language:</label>
 			<input type="text" id="sourceLanguage" th:field="*{sourceLanguage}" />
+			<div th:if="${#fields.hasErrors('sourceLanguage')}" th:errors="*{sourceLanguage}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="targetLanguage">Target Language:</label>
 			<input type="text" id="targetLanguage" th:field="*{targetLanguage}" />
+			<div th:if="${#fields.hasErrors('targetLanguage')}" th:errors="*{targetLanguage}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="deadlineDate">Deadline:</label>
 			<input placeholder="dd.mm.yyyy hh:mm" type="datetime-local" id="formDeadline" 

@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -119,6 +122,7 @@ public class OfferController {
 		return "offerlist"; // offerlist.html
 	}
 	
+	// returns the add offer form, and provides it with a new offer object
 	@GetMapping("/addoffer")
 	public String addOffer(Model model) {
 		model.addAttribute("offer", new Offer());
@@ -126,37 +130,55 @@ public class OfferController {
 		return "addoffer"; // addoffer.html
 	}
 	
+	// saves an offer, if valid
 	@PostMapping("/saveoffer")
-	public String saveOffer(Offer offer) {
+	public String saveOffer(@Valid Offer offer, BindingResult bindingResult, Model model) {
 		
-		/* gets the initial form deadline date value,
-		 * converts it to GMT +2(Helsinki) and saves it to the offer
-		 */
-		offer.setDeadlineDate(ZonedDateTime.of
-				(LocalDateTime.parse(offer.getFormDeadline()),
-				ZoneId.of("Europe/Helsinki")));		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("clients", clientRepository.findAll());
+			return "addoffer";
+		} else {
 		
-		offerRepository.save(offer);
-		return "redirect:brokermain"; //brokermain.html
+			/* gets the initial form deadline date value,
+			 * converts it to GMT +2(Helsinki) and saves it to the offer
+			 */
+			
+			offer.setDeadlineDate(ZonedDateTime.of
+					(LocalDateTime.parse(offer.getFormDeadline()),
+					ZoneId.of("Europe/Helsinki")));	
+			
+			offerRepository.save(offer);
+			return "redirect:brokermain"; //brokermain.html
+			
+		}
 	}
 	
+	// updates an offer, if valid
 	@PostMapping("/updateoffer")
-	public String updateOffer(Offer offer) {
+	public String updateOffer(@Valid Offer offer, BindingResult bindingResult, Model model) {
 		
-		Offer updatedOffer = offerRepository.findById(offer.getOfferId()).get();
-		
-		/* gets the initial form deadline date value,
-		 * converts it to GMT +2(Helsinki) and saves it to the offer
-		 */
-		updatedOffer.setDeadlineDate(ZonedDateTime.of
-				(LocalDateTime.parse(offer.getFormDeadline()),
-				ZoneId.of("Europe/Helsinki")));
-		
-		offerRepository.save(updatedOffer);
-		
-		return "redirect:brokermain"; //brokermain.html
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("clients", clientRepository.findAll());
+			return "editoffer";
+		} else {
+			
+			Offer updatedOffer = offerRepository.findById(offer.getOfferId()).get();
+			
+			/* gets the initial form deadline date value,
+			 * converts it to GMT +2(Helsinki) and saves it to the offer
+			 */
+			updatedOffer.setDeadlineDate(ZonedDateTime.of
+					(LocalDateTime.parse(offer.getFormDeadline()),
+					ZoneId.of("Europe/Helsinki")));
+			
+			offerRepository.save(updatedOffer);
+			
+			return "redirect:brokermain"; //brokermain.html			
+		}
+
 	}
 	
+	// returns the edit form for an offer specified by an id
 	@GetMapping("/editoffer/{id}")
 	public String editOffer(@PathVariable("id") Long offerId, Model model) {
 		

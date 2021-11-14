@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,19 +21,29 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long clientId;
 	
-	// not null (pattern?)
+	@NotEmpty(message = "Client needs to be named")
+	// any word character with Scandic characters included, "+" once or more times
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ_0-9]+", message = "Please provide a valid Client name(A-Z, 0-9, Scandic characters permitted)") 
 	private String clientName;
 	
-	// size (pattern?)
+	@Size(min=2, max=30, message = "Name must be 2-30 characters long")
+	// any alphabet letter with Scandic characters included, "+" once or more times
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ\\.\\s]+", message = "Characters A-Z and ÜÅÄÖÆØ permitted") 
 	private String clientContactFName;
 	
-	// size (pattern?)
+	@Size(min=2, max=30, message = "Name must be 2-30 characters long")
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ\\s]+", message = "Characters A-Z and ÜÅÄÖÆØ permitted")
 	private String clientContactLName;
 	
-	// size 
+	@Size(min=2, max=30, message = "Number must be 2-30 characters long")
+	// any number between 0-9 once or more times, "+" once or not at all
+	@Pattern(regexp = "\\+?[0-9]+", message = "Number in format +NNN.. or NNN..") 
 	private String clientContactPhone;
 	
-	// size (pattern?)
+	// muuta emailiksi ja testaa
+	@Size(min=2, max=50, message = "Email must be 2-50 characters long")
+	// handle@address.suffix format for emails
+	@Pattern(regexp = "^[a-zA-Z_0-9\\.]+\\@[a-zA-Z_0-9]+\\.[a-zA-Z]+$", message = "Email must be in valid handle@address.suffix form") 
 	private String clientContactEmail;
 	
 	@JsonIgnore

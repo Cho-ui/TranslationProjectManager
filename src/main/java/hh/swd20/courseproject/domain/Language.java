@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,7 +21,10 @@ public class Language {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long languageId;
 	
-	// not null, size, pattern
+	@NotEmpty(message = "A language must have a name")
+	@Size(min=2, max=30, message = "Name must be 2-30 characters long")
+	// any alphabet letter with Scandic characters included, "+" once or more times
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ()\\.\\s]+", message = "Characters A-Z, ÜÅÄÖÆØ, and ( ) . are permitted")
 	private String languageName;
 	
 	@JsonIgnore
