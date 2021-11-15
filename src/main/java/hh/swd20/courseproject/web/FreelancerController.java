@@ -85,6 +85,13 @@ public class FreelancerController {
 	
 	/** Manually built test endpoints for database construction **/
 	
+	// returns a list of freelancers and a freelancerlist page
+	@GetMapping("/freelancerlist")
+	public String getFreelancers(Model model) {
+		model.addAttribute("freelancers", freelancerRepository.findAll());
+		return "freelancerlist"; //freelancerlist.html
+	}
+	
 	// returns the add freelancer form and passes a new freelancer to it
 	@GetMapping("/addfreelancer")
 	public String addFreelancer(Model model) {

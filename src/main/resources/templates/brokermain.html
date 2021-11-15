@@ -3,17 +3,49 @@
 <head>
 <title>Broker Main View Test</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
 <body>
-	<h1>Clients</h1>
-	<table>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">NN Translations</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/index">Home
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clientlist">Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/languagelist">Languages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/freelancerlist">Freelancers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/offerlist">Work Offers</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- work this out -->
+	<br/>
+	<h4>Clients</h4>
+	<table style="width:70%;margin-left:15px" class="table table-hover">
 		<tr>
-			<th>Client</th>
-			<th>Contact Name</th>
-			<th>Phone Number</th>
-			<th>E-Mail</th>
-			<th/>
-			<th/>
+			<th scope="col">Client</th>
+			<th scope="col">Contact Name</th>
+			<th scope="col">Phone Number</th>
+			<th scope="col">E-Mail</th>
+			<th scope="col"/>
+			<th scope="col"/>
 		</tr>
 		<tr th:each="client: ${clients}">
 			<td th:text="${client.clientName}">Client Name</td>
@@ -22,16 +54,16 @@
 				Name</td>
 			<td th:text="${client.clientContactPhone}">Phone Number</td>
 			<td th:text="${client.clientContactEmail}">Email</td>
-			<td><a th:href="@{/editclient/{id}(id=${client.clientId})}">Edit</a>
+			<td><a th:href="@{/editclient/{id}(id=${client.clientId})}"
+			class="btn btn-outline-warning btn-sm">Edit</a>
 			<td><a th:href="@{/deleteclient/{id}(id=${client.clientId})}"
 			th:text="${client.getOffersSize()} > 0 ? '' : 'Delete'"></a>
 		</tr>
 	</table>
 	<div>
-	<br/>
-	<a href="/addclient">Add client</a>
+	<a href="/addclient" class="btn btn-success btn-sm" >Add client</a>
 	</div>
-	<h1>Languages In Use</h1>
+	<h4>Languages In Use</h4>
 	<table>
 	<tr>
 	<th>Language</th>
@@ -51,7 +83,7 @@
 	<a href="/addlanguage">Add language</a>
 	</div>
 	
-	<h1>Unassigned Work Offers</h1>
+	<h4>Unassigned Work Offers</h4>
 	<table>
 		<tr>
 			<th>Client</th>
@@ -80,7 +112,7 @@
 	<br/>
 	<a href="/addoffer">Add offer</a>
 	</div>
-	<h1>Assigned Work Offers</h1>
+	<h4>Assigned Work Offers</h4>
 	<table>
 		<tr>
 			<th>Client</th>
@@ -106,7 +138,7 @@
 			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
 		</tr>
 	</table>
-		<h1>Completed Work Offers</h1>
+		<h4>Completed Work Offers</h4>
 	<table>
 		<tr>
 			<th>Client</th>
@@ -132,7 +164,7 @@
 			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
 		</tr>
 	</table>
-	<h1>Freelancers</h1>
+	<h4>Freelancers</h4>
 	<table>
 	<tr>
 		<th>Name</th>

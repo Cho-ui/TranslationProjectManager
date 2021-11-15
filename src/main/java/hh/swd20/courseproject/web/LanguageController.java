@@ -86,6 +86,13 @@ public class LanguageController {
 	
 	/** manually built test endpoints for database construction **/
 	
+	// lists languages
+	@GetMapping("/languagelist")
+	public String getLanguages(Model model) {
+		model.addAttribute("languages", languageRepository.findAll());
+		return "languagelist"; // languagelist.html
+	}
+	
 	// gets the add language form, and gives it an empty new language
 	@GetMapping("/addlanguage")
 	public String addLanguage(Model model) {

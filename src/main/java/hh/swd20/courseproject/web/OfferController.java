@@ -115,10 +115,12 @@ public class OfferController {
 	
 	/** Manually built test endpoints for database construction **/
 	
-	// not in use
+	// lists unassigned, assigned and completed offers on the offerlist page
 	@GetMapping("/offerlist")
 	public String offerList(Model model) {
-		model.addAttribute("offers", offerRepository.findAll());
+		model.addAttribute("unassignedOffers", offerRepository.findByAssignedFalseAndCompletedFalse());
+		model.addAttribute("assignedOffers", offerRepository.findByAssignedTrueAndCompletedFalse());
+		model.addAttribute("completedOffers", offerRepository.findByAssignedFalseAndCompletedTrue());
 		return "offerlist"; // offerlist.html
 	}
 	

@@ -19,14 +19,14 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/clientlist">Clients</a>
-          <span class="visually-hidden">(current)</span>
+          <a class="nav-link" href="/clientlist">Clients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/languagelist">Languages</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/freelancerlist">Freelancers</a>
+          <a class="nav-link active" href="/freelancerlist">Freelancers</a>
+          <span class="visually-hidden">(current)</span>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/offerlist">Work Offers</a>
@@ -37,31 +37,32 @@
 </nav>
 <br/>
 	<div style="margin-left:15px">
-	<h4>Clients</h4>
+	<h4>Freelancers</h4>
+	<i>Deletion allowed for freelancers with no active or completed offers</i>
 	<table style="width:70%" class="table table-hover">
-		<tr>
-			<th scope="col">Client</th>
-			<th scope="col">Contact Name</th>
-			<th scope="col">Phone Number</th>
-			<th scope="col">E-Mail</th>
-			<th scope="col"/>
-			<th scope="col"/>
-		</tr>
-		<tr th:each="client: ${clients}">
-			<td th:text="${client.clientName}">Client Name</td>
-			<td
-				th:text="${client.clientContactFName} + ' ' + ${client.clientContactLName}">Contact
-				Name</td>
-			<td th:text="${client.clientContactPhone}">Phone Number</td>
-			<td th:text="${client.clientContactEmail}">Email</td>
-			<td><a th:href="@{/editclient/{id}(id=${client.clientId})}"
-			class="btn btn-outline-warning btn-sm">Edit</a>
-			<td><a th:href="@{/deleteclient/{id}(id=${client.clientId})}"
-			th:text="${client.getOffersSize()} > 0 ? '' : 'Delete'"></a>
-		</tr>
+	<tr>
+		<th scope="col">Name</th>
+		<th scope="col">Phone</th>
+		<th scope="col">Address</th>
+		<th scope="col">Email</th>
+		<th scope="col">Languages</th>
+		<th/>
+		<th/>
+	</tr>
+	<tr th:each="freelancer: ${freelancers}">
+		<td th:text="${freelancer.freelancerFName} + ' ' + ${freelancer.freelancerLName}">Freelancer name</td>
+		<td th:text="${freelancer.freelancerPhone}">Phone number</td>
+		<td th:text="${freelancer.freelancerAddress}">Address</td>
+		<td th:text="${freelancer.freelancerEmail}">Email</td>
+		<td th:text="${freelancer.getLanguagesAsStrings()}">Languages</td>
+		<td><a th:href="@{/editfreelancer/{id}(id=${freelancer.freelancerId})}"
+		class="btn btn-outline-warning btn-sm">Edit</a></td>
+		<td><a th:href="@{/deletefreelancer/{id}(id=${freelancer.freelancerId})}"
+		th:text="${freelancer.getOffersSize()} > 0 ? '' : 'Delete'"></a></td>
+	</tr>
 	</table>
 	<div style="display:inline">
-	<a href="/addclient" class="btn btn-success btn-sm" >Add client</a>
+	<a href="/addfreelancer" class="btn btn-success btn-sm" >Add freelancer</a>
 	<a href="/index" class="btn btn-info btn-sm">Return to main</a>
 	</div>
 	</div>

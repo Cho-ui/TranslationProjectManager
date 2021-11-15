@@ -3,10 +3,74 @@
 <head>
 <title>Offer List</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
 <body>
-	<h1>Offers</h1>
-	<table>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">NN Translations</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/index">Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clientlist">Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/languagelist">Languages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/freelancerlist">Freelancers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/offerlist">Work Offers</a>
+          <span class="visually-hidden">(current)</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br/>
+	<div style="margin-left:15px">
+	<h4>Unassigned Work Offers</h4>
+	<table style="width:70%" class="table table-hover">
+		<tr>
+			<th scope="col">Client</th>
+			<th scope="col">Subject</th>
+			<th scope="col">Word Count</th>
+			<th scope="col">Source Language</th>
+			<th scope="col">Target Language</th>
+			<th scope="col">Price (€)</th>
+			<th/>
+			<th/>
+			<th/>
+		</tr>
+		<tr th:each="offer: ${unassignedOffers}">
+			<td th:text="${offer.client.clientName}">Client Name</td>
+			<td th:text="${offer.subject}">Subject Matter</td>
+			<td th:text="${offer.wordCount}">Word Count</td>
+			<td th:text="${offer.sourceLanguage}">Source Language</td>
+			<td th:text="${offer.targetLanguage}">Target Language</td>
+			<td th:text="${offer.price}">Price</td>
+			<td><a th:href="@{/assign/{id}(id=${offer.offerId})}"
+			class="btn btn-outline-success btn-sm">Assign</a></td>
+			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}"
+			class="btn btn-outline-warning btn-sm">Edit</a></td>
+			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
+		</tr>
+	</table>
+	<div>
+	<a href="/addoffer" class="btn btn-success btn-sm" >Add offer</a>
+	</div>
+	<br/>
+	<br/>
+	<h4>Assigned Work Offers</h4>
+	<table style="width:70%" class="table table-hover">
 		<tr>
 			<th>Client</th>
 			<th>Subject</th>
@@ -14,15 +78,58 @@
 			<th>Source Language</th>
 			<th>Target Language</th>
 			<th>Price</th>
+			<th>Freelancer</th>
+			<th/>
+			<th/>
 		</tr>
-		<tr th:each="offer: ${offers}">
+		<tr th:each="offer: ${assignedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
 			<td th:text="${offer.subject}">Subject Matter</td>
 			<td th:text="${offer.wordCount}">Word Count</td>
 			<td th:text="${offer.sourceLanguage}">Source Language</td>
 			<td th:text="${offer.targetLanguage}">Target Language</td>
 			<td th:text="${offer.price}">Price</td>
+			<td th:text="${offer.freelancer.freelancerFName} 
+			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</td>
+			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}"
+			class="btn btn-outline-warning btn-sm">Edit</a></td>
+			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
 		</tr>
 	</table>
+	<br/>
+	<br/>
+		<h4>Completed Work Offers</h4>
+	<table style="width:70%" class="table table-hover">
+		<tr>
+			<th>Client</th>
+			<th>Subject</th>
+			<th>Word Count</th>
+			<th>Source Language</th>
+			<th>Target Language</th>
+			<th>Price</th>
+			<th>Freelancer</th>
+			<th/>
+			<th/>
+		</tr>
+		<tr th:each="offer: ${completedOffers}">
+			<td th:text="${offer.client.clientName}">Client Name</td>
+			<td th:text="${offer.subject}">Subject Matter</td>
+			<td th:text="${offer.wordCount}">Word Count</td>
+			<td th:text="${offer.sourceLanguage}">Source Language</td>
+			<td th:text="${offer.targetLanguage}">Target Language</td>
+			<td th:text="${offer.price}">Price</td>
+			<td th:text="${offer.freelancer.freelancerFName} 
+			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</td>
+			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}"
+			class="btn btn-outline-warning btn-sm">Edit</a></td>
+			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
+		</tr>
+	</table>
+	<div>
+	<a href="/index" class="btn btn-info btn-sm">Return to main</a>
+	<br/>
+	<br/>
+	</div>
+	</div>
 </body>
 </html>

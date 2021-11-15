@@ -19,11 +19,11 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/clientlist">Clients</a>
-          <span class="visually-hidden">(current)</span>
+          <a class="nav-link" href="/clientlist">Clients</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/languagelist">Languages</a>
+          <a class="nav-link active" href="/languagelist">Languages</a>
+          <span class="visually-hidden">(current)</span>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/freelancerlist">Freelancers</a>
@@ -37,31 +37,24 @@
 </nav>
 <br/>
 	<div style="margin-left:15px">
-	<h4>Clients</h4>
-	<table style="width:70%" class="table table-hover">
-		<tr>
-			<th scope="col">Client</th>
-			<th scope="col">Contact Name</th>
-			<th scope="col">Phone Number</th>
-			<th scope="col">E-Mail</th>
-			<th scope="col"/>
-			<th scope="col"/>
-		</tr>
-		<tr th:each="client: ${clients}">
-			<td th:text="${client.clientName}">Client Name</td>
-			<td
-				th:text="${client.clientContactFName} + ' ' + ${client.clientContactLName}">Contact
-				Name</td>
-			<td th:text="${client.clientContactPhone}">Phone Number</td>
-			<td th:text="${client.clientContactEmail}">Email</td>
-			<td><a th:href="@{/editclient/{id}(id=${client.clientId})}"
-			class="btn btn-outline-warning btn-sm">Edit</a>
-			<td><a th:href="@{/deleteclient/{id}(id=${client.clientId})}"
-			th:text="${client.getOffersSize()} > 0 ? '' : 'Delete'"></a>
-		</tr>
+	<h4>Languages In Use</h4>
+	<i>Edit & Delete allowed for languages with no freelancers</i>
+	<table style="width:35%" class="table table-hover">
+	<tr>
+	<th scope="col">Language</th>
+	<th scope="col">Edit</th>
+	<th scope="col">Delete</th>
+	</tr>
+	<tr th:each="language: ${languages}">
+	<td th:text="${language.languageName}">Language Name</td>
+	<td><a th:href="@{/editlanguage/{id}(id=${language.languageId})}"
+	th:text="${language.getFreelancersSize()} > 0 ? '' : 'Edit'">Edit</a></td>
+	<td><a th:href="@{/deletelanguage/{id}(id=${language.languageId})}"
+	th:text="${language.getFreelancersSize()} > 0 ? '' : 'Delete'">Delete</a></td>
+	</tr>
 	</table>
 	<div style="display:inline">
-	<a href="/addclient" class="btn btn-success btn-sm" >Add client</a>
+	<a href="/addlanguage" class="btn btn-success btn-sm" >Add language</a>
 	<a href="/index" class="btn btn-info btn-sm">Return to main</a>
 	</div>
 	</div>

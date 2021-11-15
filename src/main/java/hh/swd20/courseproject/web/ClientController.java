@@ -78,7 +78,7 @@ public class ClientController {
 	
 	/** Manually built test endpoints for database construction **/
 	
-	// not in use
+	// lists clients to the clientlist page
 	@GetMapping("/clientlist")
 	public String clientList(Model model) {
 		model.addAttribute("clients", clientRepository.findAll());
