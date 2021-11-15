@@ -162,7 +162,29 @@ public class OfferController {
 			return "editoffer";
 		} else {
 			
-			Offer updatedOffer = offerRepository.findById(offer.getOfferId()).get();
+			Offer updatedOffer = offer;
+			
+			// if offer has a freelancer attached to it
+			if (!(updatedOffer.getFreelancer() == null)) {
+							
+				/* if either the source- or target language are missing from the
+				 * freelancer, release the edited offer
+				 */
+				if (!(updatedOffer.getFreelancer()
+						.getLanguagesAsStringArray()
+						.contains(updatedOffer.getSourceLanguage()))) {
+					updatedOffer.setAssigned(false);
+					updatedOffer.setFreelancer(null);
+					updatedOffer.setCompleted(false); 
+				} else if(!(updatedOffer.getFreelancer()
+						.getLanguagesAsStringArray()
+						.contains(updatedOffer.getTargetLanguage()))) {
+					updatedOffer.setAssigned(false);
+					updatedOffer.setFreelancer(null);
+					updatedOffer.setCompleted(false);
+				}
+				
+			}
 			
 			/* gets the initial form deadline date value,
 			 * converts it to GMT +2(Helsinki) and saves it to the offer

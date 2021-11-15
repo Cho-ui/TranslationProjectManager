@@ -15,6 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,19 +29,32 @@ public class Freelancer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long freelancerId;
 	
-	// size, pattern?
+	@NotEmpty(message = "a freelancer must have a first name")
+	@Size(min=2, max=30, message = "Name must be 2-30 characters long")
+	// any word character with Scandic characters included, once or more times
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ\\-\\s]+", message = "Characters A-Z and ÜÅÄÖÆØ permitted")
 	private String freelancerFName;
 	
-	// size, pattern?
+	@NotEmpty(message = "a freelancer must have a last name")
+	// any word character with Scandic characters included, once or more times
+	@Size(min=2, max=30, message = "Name must be 2-30 characters long")
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ\\-\\.\\s]+", message = "Characters A-Z and ÜÅÄÖÆØ permitted")
 	private String freelancerLName;
 	
-	// size
+	@NotEmpty(message = "a freelancer must have a a phone number")
+	@Size(min=2, max=30, message = "Number must be 2-30 characters long")
+	// any number between 0-9 once or more times, "+" once or not at all
+	@Pattern(regexp = "\\+?[0-9]+", message = "Number in format +NNN.. or NNN..")
 	private String freelancerPhone;
 	
-	// size, pattern?
+	@Size(min=2, max=30, message = "Address must be 2-30 characters long")
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ_0-9\\s\\-]+", message = "Please provide a valid address(A-Z, 0-9, Scandic characters permitted)")
 	private String freelancerAddress;
 	
-	// size, pattern?
+	@NotEmpty(message = "a freelancer must have an e-mail address")
+	@Size(min=2, max=50, message = "Email must be 2-50 characters long")
+	// handle@address.suffix format for emails 
+	@Email(regexp = "^[a-zA-Z_0-9\\.]+\\@[a-zA-Z_0-9]+\\.[a-zA-Z]+$", message = "Email must be in a valid handle@address.suffix format")
 	private String freelancerEmail;
 	
 	@JsonIgnore

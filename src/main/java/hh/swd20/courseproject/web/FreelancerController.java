@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -82,12 +85,14 @@ public class FreelancerController {
 	
 	/** Manually built test endpoints for database construction **/
 	
+	// returns the add freelancer form and passes a new freelancer to it
 	@GetMapping("/addfreelancer")
 	public String addFreelancer(Model model) {
 		model.addAttribute("freelancer", new Freelancer());
 		return "addfreelancer"; //addfreelancer.html
 	}
 	
+	// handles the addition of a language to a freelancer
 	@PostMapping("/addfreelancerlanguage/{id}")
 	public String addFreeLancerLanguage(@PathVariable("id") Long freelancerId,
 			@ModelAttribute Freelancer freelancer, Model model) {
@@ -118,13 +123,26 @@ public class FreelancerController {
 		List<Language> addLanguages = addLanguages(freelancerId);
 		List<Language> removeLanguages = removeLanguages(freelancerId);
 		
+		// get all work offers assigned to freelancer
+		
+		List<Offer> assignedOffers = offerRepository.findByFreelancerAndAssignedTrue(
+		freelancerRepository.findById(freelancerId).get());
+									
+		// get all completed work offers
+							
+		List<Offer> completedOffers = offerRepository.findByFreelancerAndAssignedFalseAndCompletedTrue(
+		freelancerRepository.findById(freelancerId).get());
+		
 		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
 		model.addAttribute("addlanguages", addLanguages);
 		model.addAttribute("removelanguages", removeLanguages);
+		model.addAttribute("assignedoffers", assignedOffers);
+		model.addAttribute("completedoffers", completedOffers);
 		
 		return "editfreelancer"; //editfreelancer.html
 	}
 	
+	// handles the deletion of a language from a freelancer's proficiencies
 	@PostMapping("/deletefreelancerlanguage/{id}")
 	public String deleteFreeLancerLanguage(@PathVariable("id") Long freelancerId,
 			@ModelAttribute Freelancer freelancer, Model model) {
@@ -155,13 +173,26 @@ public class FreelancerController {
 		List<Language> addLanguages = addLanguages(freelancerId);
 		List<Language> removeLanguages = removeLanguages(freelancerId);
 		
+		// get all work offers assigned to freelancer
+		
+		List<Offer> assignedOffers = offerRepository.findByFreelancerAndAssignedTrue(
+		freelancerRepository.findById(freelancerId).get());
+							
+		// get all completed work offers
+					
+		List<Offer> completedOffers = offerRepository.findByFreelancerAndAssignedFalseAndCompletedTrue(
+		freelancerRepository.findById(freelancerId).get());
+		
 		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
 		model.addAttribute("addlanguages", addLanguages);
 		model.addAttribute("removelanguages", removeLanguages);
+		model.addAttribute("assignedoffers", assignedOffers);
+		model.addAttribute("completedoffers", completedOffers);
 		
 		return "editfreelancer"; //editfreelancer.html
 	}
 	
+	// deletes a specified freelancer
 	@GetMapping("/deletefreelancer/{id}")
 	public String deleteFreelancer(@PathVariable("id") Long freelancerId) {
 		freelancerRepository.deleteById(freelancerId);
@@ -169,29 +200,70 @@ public class FreelancerController {
 		return "redirect:../brokermain"; //brokermain.html
 	}
 	
+	// saves a freelancer, if valid
 	@PostMapping("/savefreelancer")
-	public String saveFreelancer(Freelancer freelancer) {
-		freelancerRepository.save(freelancer);
-		return "redirect:brokermain"; //brokermain.html
+	public String saveFreelancer(@Valid Freelancer freelancer, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			return "addfreelancer";
+		} else {
+			freelancerRepository.save(freelancer);
+			return "redirect:brokermain"; //brokermain.html
+		}
 	}
 	
-	@PostMapping("/updatefreelancer")
-	public String updateFreelancer(@ModelAttribute Freelancer freelancer) {
+	// saves an updated freelancer, if valid
+	@PostMapping("/updatefreelancer") // oli modelattribute
+	public String updateFreelancer(@Valid Freelancer freelancer, BindingResult bindingResult, Model model) {
 		
-		/* Gets existing freelancer language set, which is stored
-		 * separately. Sets the language set to the updated freelancer,
-		 * so as to not overwrite an empty set when saving the updated
-		 * freelancer
-		 */
-		Set<Language> freelancerLanguages = freelancerRepository.findById(freelancer.getFreelancerId()).get().getLanguages();
-		Freelancer updatedFreelancer = freelancer;
-		updatedFreelancer.setLanguages(freelancerLanguages);
-		freelancerRepository.save(freelancer);
+		if (bindingResult.hasErrors()) {
+			
+			/* add:
+			 * get the language proficiencies the freelancer has,
+			 * compare them to all available languages
+			 * and add a list of proficiencies the freelancer doesn't have
+			 * to the model
+			 * 
+			 * remove:
+			 * get the language proficiencies the freelancer has,
+			 * compare them to all available languages
+			 * and create a Language object list to be passed in the model
+			 */
+							
+			List<Language> addLanguages = addLanguages(freelancer.getFreelancerId());
+			List<Language> removeLanguages = removeLanguages(freelancer.getFreelancerId());
+			
+			// get all work offers assigned to freelancer
+			
+			List<Offer> assignedOffers = offerRepository.findByFreelancerAndAssignedTrue(
+					freelancerRepository.findById(freelancer.getFreelancerId()).get());
+					
+			// get all completed work offers
+			
+			List<Offer> completedOffers = offerRepository.findByFreelancerAndAssignedFalseAndCompletedTrue(
+					freelancerRepository.findById(freelancer.getFreelancerId()).get());
+			
+			model.addAttribute("addlanguages", addLanguages);
+			model.addAttribute("removelanguages", removeLanguages);
+			model.addAttribute("assignedoffers", assignedOffers);
+			model.addAttribute("completedoffers", completedOffers);
+				
+			return "editfreelancer";
+		} else {
 		
-		
-		
-		return "redirect:brokermain"; // brokermain.html
-		
+			/* Gets existing freelancer language set, which is stored
+			 * separately. Sets the language set to the updated freelancer,
+			 * so as to not overwrite an empty set when saving the updated
+			 * freelancer
+			 */
+			Set<Language> freelancerLanguages = freelancerRepository.findById(freelancer.getFreelancerId()).get().getLanguages();
+			Freelancer updatedFreelancer = freelancer;
+			updatedFreelancer.setLanguages(freelancerLanguages);
+			freelancerRepository.save(freelancer);
+			
+			return "redirect:brokermain"; // brokermain.html
+			
+		}
 	}
 	
 	@GetMapping("/editfreelancer/{id}")

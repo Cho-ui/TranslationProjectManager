@@ -38,11 +38,13 @@ public class Offer {
 	
 	@NotEmpty(message = "An offer must have a source language")
 	@Size(min=2, max=30, message = "Language name must be 2-30 characters long")
+	// any word character with Scandic characters included, once or more times
 	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ()\\.\\s]+", message = "Characters A-Z, ÜÅÄÖÆØ, and ( ) . are permitted")
 	private String sourceLanguage;
 	
 	@NotEmpty(message = "An offer must have a target language")
 	@Size(min=2, max=30, message = "Language name must be 2-30 characters long")
+	// any word character with Scandic characters included, once or more times
 	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ()\\.\\s]+", message = "Characters A-Z, ÜÅÄÖÆØ, and ( ) . are permitted")
 	private String targetLanguage;
 	
@@ -57,7 +59,7 @@ public class Offer {
 
 	private ZonedDateTime deadlineDate; // not in constructor
 	
-	// not in constructor, edit according to deadlinedate if you have time
+	// not in use, edit according to deadlinedate later
 	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") 
 	private LocalDateTime completionDate;
 	

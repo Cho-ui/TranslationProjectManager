@@ -52,6 +52,12 @@
 	<form th:object="${offer}" th:action="@{/updateoffer}" action="#" method="post">
 	<label for="id"></label>
 	<input type="hidden" id="id" th:field="*{offerId}" readonly="readonly" />
+	<label for="assigned"></label>
+	<input type="hidden" id="assigned" th:field="*{assigned}" readonly="readonly" />
+	<label for="completed"></label>
+	<input type="hidden" id="completed" th:field="*{completed}" readonly="readonly" />
+	<label for="freelancer"></label>
+	<input type="hidden" id="freelancer" th:field="*{freelancer}" readonly="readonly" />
 	<label for="client">Client:</label>
 	<select id="client" th:field="*{client}" class="form-control">
 		<option th:each="client: ${clients}"

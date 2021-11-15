@@ -10,18 +10,23 @@
 	<form th:object="${freelancer}" th:action="@{savefreelancer}" action="#" method="post">
 	<label for="freelancerFName">First Name:</label>
 			<input type="text" id="freelancerFName" th:field="*{freelancerFName}" />
+			<div th:if="${#fields.hasErrors('freelancerFName')}" th:errors="*{freelancerFName}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="freelancerLName">Last Name:</label>
 			<input type="text" id="freelancerLName" th:field="*{freelancerLName}" />
+			<div th:if="${#fields.hasErrors('freelancerLName')}" th:errors="*{freelancerLName}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="freelancerPhone">Telephone:</label>
 			<input type="text" id="freelancerPhone" th:field="*{freelancerPhone}" />
+			<div th:if="${#fields.hasErrors('freelancerPhone')}" th:errors="*{freelancerPhone}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="freelancerAddress">Address:</label>
 			<input type="text" id="freelancerAddress" th:field="*{freelancerAddress}" />
+			<div th:if="${#fields.hasErrors('freelancerAddress')}" th:errors="*{freelancerAddress}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="freelancerEmail">Email:</label>
 			<input type="text" id="freelancerEmail" th:field="*{freelancerEmail}" />
+			<div th:if="${#fields.hasErrors('freelancerEmail')}" th:errors="*{freelancerEmail}"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>	
 	<input type="submit" value="Save"></input>
 	</form>
