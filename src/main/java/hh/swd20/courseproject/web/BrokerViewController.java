@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import hh.swd20.courseproject.domain.ClientRepository;
 import hh.swd20.courseproject.domain.FreelancerRepository;
@@ -26,6 +27,10 @@ public class BrokerViewController {
 	@Autowired
 	private LanguageRepository languageRepository;
 	
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
 	
 	@GetMapping("/brokermain")
 	public String brokerMain(Model model) {

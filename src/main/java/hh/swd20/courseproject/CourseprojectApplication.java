@@ -18,6 +18,8 @@ import hh.swd20.courseproject.domain.Language;
 import hh.swd20.courseproject.domain.LanguageRepository;
 import hh.swd20.courseproject.domain.Offer;
 import hh.swd20.courseproject.domain.OfferRepository;
+import hh.swd20.courseproject.domain.User;
+import hh.swd20.courseproject.domain.UserRepository;
 
 @SpringBootApplication
 public class CourseprojectApplication {
@@ -30,8 +32,16 @@ public class CourseprojectApplication {
 	
 	@Bean
 	public CommandLineRunner demo(ClientRepository clientRepository, OfferRepository offerRepository, 
-			LanguageRepository languageRepository, FreelancerRepository freelancerRepository) {
+			LanguageRepository languageRepository, FreelancerRepository freelancerRepository, UserRepository userRepository) {
 		return (args) -> {
+			
+			log.info("Create and save Broker- and Manager-users");
+			
+			User u1 = new User("broker", "$2a$10$1ryWb4oVWtrexfqET428J.IcPL3e2yJ1PrPAoAnYGPMhHsGynW9KW", "BROKER");
+			User u2 = new User("manager", "$2a$10$wvwV0h4Fz3JtQCHUSKj9puz94/gbqnBIBeEN0/isYRHt.PR8BeKiC", "MANAGER");
+			
+			userRepository.save(u1);
+			userRepository.save(u2);
 			
 			log.info("Save some clients");
 			
