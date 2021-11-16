@@ -31,12 +31,15 @@
           <a class="nav-link" href="/offerlist">Work Offers</a>
         </li>
       </ul>
+      <form th:action="@{/logout}" method="post" class="d-flex">
+            <input type="submit" value="Sign Out" class="btn btn-primary"/>
+      </form>
     </div>
   </div>
 </nav>
 <br/>
 	<div style="margin-left:15px">
-	<h4>Hello NN!</h4>
+	<h4 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h4>
 	<i>Hardcoded example of home page content with a freelancer request:</i>
 	<br/>
 	<br/>

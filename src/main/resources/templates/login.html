@@ -3,24 +3,37 @@
 <head>
 <title>Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{../css/bootstrap.min.css}" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body>
-<!-- lisää tyylitelty nav-palkki ja keskitä login? yms logout toiminnallisuus -->
-	<div th:if="${param.error}">Invalid username and password.</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">NN Translations</a>
+  </div>
+</nav>
+	<div style="margin-left:40%; margin-top:150px">
+	<div th:if="${param.error}" class="text-primary">Invalid username or password.</div>
+	<div th:if="${param.logout}" class="text-success">You have been logged out.</div>
 	<form th:action="@{/login}" method="post">
+		<div>Login:</div>
+		<div style="clear: both; display: block; height: 5px;"></div>
 		<div>
-			<label> User Name : <input type="text" name="username" />
+		<label>
+			<input type="text" name="username" placeholder="Username"/>
+			</label>			
+		</div>
+		<div style="clear: both; display: block; height: 5px;"></div>
+		<div>
+			<label><input type="password" name="password" placeholder="Password"/>
 			</label>
 		</div>
+		<div style="clear: both; display: block; height: 10px;"></div>
 		<div>
-			<label> Password: <input type="password" name="password" />
-			</label>
-		</div>
-		<div>
-			<input type="submit" value="Sign In" />
+			<input type="submit" value="Sign In" class="btn btn-outline-success btn-sm" />
 		</div>
 	</form>
+	</div>
 
 </body>
 </html>

@@ -22,6 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 			.authorizeRequests()
+			.antMatchers("/css/**").permitAll()
+			.and()
+			.authorizeRequests()
 			.antMatchers("/h2-console/**").permitAll()
 			.and()
 			.csrf().ignoringAntMatchers("/h2-console/**")
@@ -33,6 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 			.loginPage("/login")
 			.defaultSuccessUrl("/index", true)
+			.permitAll()
+			.and()
+			.logout()
 			.permitAll();
 				
 	}

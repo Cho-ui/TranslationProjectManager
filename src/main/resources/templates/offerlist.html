@@ -32,6 +32,9 @@
           <span class="visually-hidden">(current)</span>
         </li>
       </ul>
+      <form th:action="@{/logout}" method="post" class="d-flex">
+            <input type="submit" value="Sign Out" class="btn btn-primary"/>
+      </form>
     </div>
   </div>
 </nav>
