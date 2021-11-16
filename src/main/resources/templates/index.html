@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Languages</title>
+<title>Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
@@ -15,15 +15,14 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/index">Home
-          </a>
+          <a class="nav-link active" href="/index">Home</a>
+          <span class="visually-hidden">(current)</span>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/clientlist">Clients</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/languagelist">Languages</a>
-          <span class="visually-hidden">(current)</span>
+          <a class="nav-link" href="/languagelist">Languages</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/freelancerlist">Freelancers</a>
@@ -37,18 +36,41 @@
 </nav>
 <br/>
 	<div style="margin-left:15px">
-	<h4>New Language</h4>
-	<div>
-	<form th:object="${language}" th:action="@{savelanguage}" action="#" method="post">
-	<label for="languageName">Language Name:</label>
-			<input type="text" id="languageName" th:field="*{languageName}" />
-			<div th:if="${#fields.hasErrors('languageName')}" th:errors="*{languageName}" class="text-primary"></div>
-	<div style="clear: both; display: block; height: 10px;"></div>
-	<input type="submit" value="Save" class="btn btn-outline-success btn-sm"></input>
-	</form>
-	</div>
+	<h4>Hello NN!</h4>
+	<i>Hardcoded example of home page content with a freelancer request:</i>
 	<br/>
-	<a href="/languagelist">Return without saving</a>
+	<br/>
+	<h4>Work Requests</h4>
+	<table style="width:70%" class="table table-hover">
+		<tr>
+			<th scope="col">Client</th>
+			<th scope="col">Subject</th>
+			<th scope="col">Word Count</th>
+			<th scope="col">Source Language</th>
+			<th scope="col">Target Language</th>
+			<th scope="col">Price (€)</th>
+			<th scope="col">Offer status</th>
+			<th scope="col">Requested by</th>
+			<th scope="col">Requested at</th>
+			<th/>
+		</tr>
+		<tr>
+			<td>Karhu</td>
+			<td>Product pitch doc</td>
+			<td>400</td>
+			<td>Finnish</td>
+			<td>Spanish</td>
+			<td>91.02</td>
+			<td>Unassigned</td>
+			<td>Juan Gonzalez</td>
+			<td>21/11/2021 20:35:12 EET(GMT+2)</td>
+			<td><a class="btn btn-outline-success btn-sm">Assign</a></td>
+		</tr>
+	</table>
+	<div style="display:inline">
+	<a href="#" class="btn btn-outline-success btn-sm" >Archive requests</a>
+	<a href="#" class="btn btn-outline-info btn-sm">Show archive</a>
+	</div>
 	</div>
 </body>
 </html>

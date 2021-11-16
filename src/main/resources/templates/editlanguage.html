@@ -3,21 +3,54 @@
 <head>
 <title>Edit Language</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{../css/bootstrap.min.css}" />
 </head>
 <body>
-	<h1>Edit Language</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">NN Translations</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/index">Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clientlist">Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/languagelist">Languages</a>
+          <span class="visually-hidden">(current)</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/freelancerlist">Freelancers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/offerlist">Work Offers</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br/>
+	<div style="margin-left:15px">
+	<h4>Edit Language</h4>
 	<div>
 	<form th:object="${language}" th:action="@{/updatelanguage}" action="#" method="post">
 	<label for="id"></label>
 	<input type="hidden" id="id" th:field="*{languageId}" readonly="readonly" />
 	<label for="languageName">Language Name:</label>
 			<input type="text" id="languageName" th:field="*{languageName}" />
-			<div th:if="${#fields.hasErrors('languageName')}" th:errors="*{languageName}"></div>
+			<div th:if="${#fields.hasErrors('languageName')}" th:errors="*{languageName}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
-	<input type="submit" value="Save"></input>
+	<input type="submit" value="Save" class="btn btn-outline-success btn-sm"></input>
 	</form>
 	</div>
 	<br/>
-	<a href="/brokermain">Return without saving</a>
+	<a href="/languagelist">Return without saving</a>
+	</div>
 </body>
 </html>

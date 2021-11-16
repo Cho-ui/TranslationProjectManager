@@ -150,7 +150,7 @@ public class OfferController {
 					ZoneId.of("Europe/Helsinki")));	
 			
 			offerRepository.save(offer);
-			return "redirect:brokermain"; //brokermain.html
+			return "redirect:offerlist"; // offerlist.html
 			
 		}
 	}
@@ -197,7 +197,7 @@ public class OfferController {
 			
 			offerRepository.save(updatedOffer);
 			
-			return "redirect:brokermain"; //brokermain.html			
+			return "redirect:offerlist"; // offerlist.html			
 		}
 
 	}
@@ -217,7 +217,7 @@ public class OfferController {
 	public String deleteOffer(@PathVariable("id") Long offerId) {
 		offerRepository.deleteById(offerId);
 		
-		return "redirect:../brokermain"; //brokermain.html
+		return "redirect:../offerlist"; // offerlist.html
 	}
 	
 	@PostMapping("/releaseoffer") 
@@ -229,7 +229,7 @@ public class OfferController {
 		toRelease.setCompleted(false);
 		offerRepository.save(toRelease);
 		
-		return "redirect:brokermain"; //brokermain.html
+		return "redirect:offerlist"; //offerlist.html
 		
 	}
 	
@@ -238,11 +238,14 @@ public class OfferController {
 	public String completeOffer(@PathVariable("id") Long offerId) {
 		
 		Offer offer = offerRepository.findById(offerId).get();
+		
+		if (!(offer.getFreelancer() == null)) {
 		offer.setAssigned(false);
 		offer.setCompleted(true);
-		offerRepository.save(offer);
+		offerRepository.save(offer); 
+		}
 		
-		return "redirect:../brokermain"; //brokermain.html
+		return "redirect:../offerlist"; // offerlist.html
 	}
 	
 	@GetMapping("/assign/{id}")

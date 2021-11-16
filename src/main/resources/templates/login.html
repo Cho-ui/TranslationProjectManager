@@ -3,9 +3,10 @@
 <head>
 <title>Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{../css/bootstrap.min.css}" />
 </head>
 <body>
+<!-- lisää tyylitelty nav-palkki ja keskitä login? yms logout toiminnallisuus -->
 	<div th:if="${param.error}">Invalid username and password.</div>
 	<form th:action="@{/login}" method="post">
 		<div>

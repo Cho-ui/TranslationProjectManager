@@ -1,37 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add Client</title>
+<title>Clients</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
 <body>
-	<h1>New Client</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">NN Translations</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/index">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/clientlist">Clients</a>
+          <span class="visually-hidden">(current)</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/languagelist">Languages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/freelancerlist">Freelancers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/offerlist">Work Offers</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br/>
+	<div style="margin-left:15px">
+	<h4>New Client</h4>
 	<div>
 	<form th:object="${client}" th:action="@{saveclient}" action="#" method="post">
 	<label for="clientName">Client Organization:</label>
-			<input type="text" id="clientName" th:field="*{clientName}" />
-			<div th:if="${#fields.hasErrors('clientName')}" th:errors="*{clientName}"></div>
+			<input type="text" id="clientName" th:field="*{clientName}"/>
+			<div th:if="${#fields.hasErrors('clientName')}" th:errors="*{clientName}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="clientContactFName">Contact First Name:</label>
 			<input type="text" id="clientContactFName" th:field="*{clientContactFName}" />
-			<div th:if="${#fields.hasErrors('clientContactFName')}" th:errors="*{clientContactFName}"></div>
+			<div th:if="${#fields.hasErrors('clientContactFName')}" th:errors="*{clientContactFName}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="clientContactLName">Contact Last Name:</label>
 			<input type="text" id="clientContactLName" th:field="*{clientContactLName}" />
-			<div th:if="${#fields.hasErrors('clientContactLName')}" th:errors="*{clientContactLName}"></div>
+			<div th:if="${#fields.hasErrors('clientContactLName')}" th:errors="*{clientContactLName}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="clientContactPhone">Contact Telephone:</label>
 			<input type="text" id="clientContactPhone" th:field="*{clientContactPhone}" />
-			<div th:if="${#fields.hasErrors('clientContactPhone')}" th:errors="*{clientContactPhone}"></div>
+			<div th:if="${#fields.hasErrors('clientContactPhone')}" th:errors="*{clientContactPhone}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="clientContactEmail">Contact Email:</label>
 			<input type="text" id="clientContactEmail" th:field="*{clientContactEmail}" />
-			<div th:if="${#fields.hasErrors('clientContactEmail')}" th:errors="*{clientContactEmail}"></div>
+			<div th:if="${#fields.hasErrors('clientContactEmail')}" th:errors="*{clientContactEmail}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
-	<input type="submit" value="Save"></input>
+	<input type="submit" value="Save" class="btn btn-outline-success btn-sm"></input>
 	</form>
 	</div>
 	<br/>
-	<a href="/brokermain">Return without saving</a>
+	<a href="/clientlist">Return without saving</a>
+	<br/>
+	<br/>
+	</div>
 </body>
 </html>

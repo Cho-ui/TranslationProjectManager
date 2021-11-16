@@ -130,15 +130,16 @@ public class FreelancerController {
 		List<Language> addLanguages = addLanguages(freelancerId);
 		List<Language> removeLanguages = removeLanguages(freelancerId);
 		
-		// get all work offers assigned to freelancer
+		// get all checked work offers assigned to freelancer
 		
 		List<Offer> assignedOffers = offerRepository.findByFreelancerAndAssignedTrue(
-		freelancerRepository.findById(freelancerId).get());
+		freelancerRepository.findById(freelancerId).get());		
 									
 		// get all completed work offers
 							
 		List<Offer> completedOffers = offerRepository.findByFreelancerAndAssignedFalseAndCompletedTrue(
 		freelancerRepository.findById(freelancerId).get());
+		
 		
 		model.addAttribute("freelancer", freelancerRepository.findById(freelancerId).get());
 		model.addAttribute("addlanguages", addLanguages);
@@ -180,6 +181,30 @@ public class FreelancerController {
 		List<Language> addLanguages = addLanguages(freelancerId);
 		List<Language> removeLanguages = removeLanguages(freelancerId);
 		
+		/* get all assigned work offers of the freelancer,
+		 * if the work offers' source or target languages are not in
+		 * removeLanguages(which are the freelancers' proficiencies that
+		 * can be removed) -list, the work offers' status will be reset
+		 * so the offers become unassigned. Completed offers remain completed
+		 * for traceability, even if a freelancer's language proficiency is
+		 * removed
+		 * */
+		
+		List<Offer> offersToCheck = offerRepository.findByFreelancerAndAssignedTrue(
+				freelancerRepository.findById(freelancerId).get());
+		
+		for (Offer offer : offersToCheck) {
+			if (!(removeLanguages.toString().contains(offer.getSourceLanguage()))) {
+			   offer.setAssigned(false);
+			   offer.setFreelancer(null);
+			   offerRepository.save(offer);
+			} else if ((!(removeLanguages.toString().contains(offer.getTargetLanguage())))) {
+				offer.setAssigned(false);
+				offer.setFreelancer(null);
+				offerRepository.save(offer);
+			}
+		}
+		
 		// get all work offers assigned to freelancer
 		
 		List<Offer> assignedOffers = offerRepository.findByFreelancerAndAssignedTrue(
@@ -204,7 +229,7 @@ public class FreelancerController {
 	public String deleteFreelancer(@PathVariable("id") Long freelancerId) {
 		freelancerRepository.deleteById(freelancerId);
 		
-		return "redirect:../brokermain"; //brokermain.html
+		return "redirect:../freelancerlist"; // freelancerlist.html
 	}
 	
 	// saves a freelancer, if valid
@@ -215,12 +240,12 @@ public class FreelancerController {
 			return "addfreelancer";
 		} else {
 			freelancerRepository.save(freelancer);
-			return "redirect:brokermain"; //brokermain.html
+			return "redirect:freelancerlist"; // freelancerlist.html
 		}
 	}
 	
 	// saves an updated freelancer, if valid
-	@PostMapping("/updatefreelancer") // oli modelattribute
+	@PostMapping("/updatefreelancer") 
 	public String updateFreelancer(@Valid Freelancer freelancer, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
@@ -268,7 +293,7 @@ public class FreelancerController {
 			updatedFreelancer.setLanguages(freelancerLanguages);
 			freelancerRepository.save(freelancer);
 			
-			return "redirect:brokermain"; // brokermain.html
+			return "redirect:freelancerlist"; // freelancerlist.html
 			
 		}
 	}
@@ -326,7 +351,7 @@ public class FreelancerController {
 		offerRepository.save(offerAssign);
 		}
 		
-		return "redirect:brokermain"; // brokermain.html
+		return "redirect:offerlist"; // offerlist.html
 	}
 	
 	// addLanguages- and removeLanguages-list methods

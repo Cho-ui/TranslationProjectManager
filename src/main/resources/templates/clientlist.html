@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Client List</title>
+<title>Clients</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
@@ -38,6 +38,7 @@
 <br/>
 	<div style="margin-left:15px">
 	<h4>Clients</h4>
+	<i>Deletion allowed if a Client has no work offers</i>
 	<table style="width:70%" class="table table-hover">
 		<tr>
 			<th scope="col">Client</th>
@@ -61,8 +62,8 @@
 		</tr>
 	</table>
 	<div style="display:inline">
-	<a href="/addclient" class="btn btn-success btn-sm" >Add client</a>
-	<a href="/index" class="btn btn-info btn-sm">Return to main</a>
+	<a href="/addclient" class="btn btn-outline-success btn-sm" >Add client</a>
+	<a href="/index" class="btn btn-outline-info btn-sm">Return to main</a>
 	</div>
 	</div>
 </body>

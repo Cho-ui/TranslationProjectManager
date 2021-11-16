@@ -13,7 +13,7 @@ import hh.swd20.courseproject.domain.LanguageRepository;
 import hh.swd20.courseproject.domain.OfferRepository;
 
 @Controller
-public class BrokerViewController {
+public class ViewController {
 	
 	@Autowired
 	private OfferRepository offerRepository;
@@ -29,9 +29,16 @@ public class BrokerViewController {
 	
 	@RequestMapping("/login")
 	public String login() {
-		return "login";
+		return "login"; // login.html
 	}
 	
+	@GetMapping("/index")
+	public String index() {
+		return "index"; // index.html
+	}
+	
+	
+	// in test use, remove once completed
 	@GetMapping("/brokermain")
 	public String brokerMain(Model model) {
 		

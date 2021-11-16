@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.formLogin()
 			.loginPage("/login")
-			.defaultSuccessUrl("/brokermain", true)
+			.defaultSuccessUrl("/index", true)
 			.permitAll();
 				
 	}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Offer List</title>
+<title>Offers</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
@@ -65,21 +65,22 @@
 		</tr>
 	</table>
 	<div>
-	<a href="/addoffer" class="btn btn-success btn-sm" >Add offer</a>
+	<a href="/addoffer" class="btn btn-outline-success btn-sm">Add offer</a>
 	</div>
 	<br/>
 	<br/>
 	<h4>Assigned Work Offers</h4>
 	<table style="width:70%" class="table table-hover">
 		<tr>
-			<th>Client</th>
-			<th>Subject</th>
-			<th>Word Count</th>
-			<th>Source Language</th>
-			<th>Target Language</th>
-			<th>Price</th>
-			<th>Freelancer</th>
-			<th/>
+			<th scope="col">Client</th>
+			<th scope="col">Subject</th>
+			<th scope="col">Word Count</th>
+			<th scope="col">Source Language</th>
+			<th scope="col">Target Language</th>
+			<th scope="col">Price</th>
+			<th scope="col">Freelancer</th>
+			<th scope="col">View Freelancer</th>
+			<th scope="col">Edit Offer</th>
 			<th/>
 		</tr>
 		<tr th:each="offer: ${assignedOffers}">
@@ -91,6 +92,7 @@
 			<td th:text="${offer.price}">Price</td>
 			<td th:text="${offer.freelancer.freelancerFName} 
 			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</td>
+			<td><a th:href="@{/editfreelancer/{id}(id=${offer.freelancer.freelancerId})}">View</a></td>
 			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}"
 			class="btn btn-outline-warning btn-sm">Edit</a></td>
 			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
@@ -101,14 +103,15 @@
 		<h4>Completed Work Offers</h4>
 	<table style="width:70%" class="table table-hover">
 		<tr>
-			<th>Client</th>
-			<th>Subject</th>
-			<th>Word Count</th>
-			<th>Source Language</th>
-			<th>Target Language</th>
-			<th>Price</th>
-			<th>Freelancer</th>
-			<th/>
+			<th scope="col">Client</th>
+			<th scope="col">Subject</th>
+			<th scope="col">Word Count</th>
+			<th scope="col">Source Language</th>
+			<th scope="col">Target Language</th>
+			<th scope="col">Price</th>
+			<th scope="col">Freelancer</th>
+			<th scope="col">View Freelancer</th>
+			<th scope="col">Edit Offer</th>
 			<th/>
 		</tr>
 		<tr th:each="offer: ${completedOffers}">
@@ -120,13 +123,14 @@
 			<td th:text="${offer.price}">Price</td>
 			<td th:text="${offer.freelancer.freelancerFName} 
 			+ ' ' + ${offer.freelancer.freelancerLName}">Freelancer</td>
+			<td><a th:href="@{/editfreelancer/{id}(id=${offer.freelancer.freelancerId})}">View</a></td>
 			<td><a th:href="@{/editoffer/{id}(id=${offer.offerId})}"
 			class="btn btn-outline-warning btn-sm">Edit</a></td>
 			<td><a th:href="@{/deleteoffer/{id}(id=${offer.offerId})}">Delete</a></td>
 		</tr>
 	</table>
 	<div>
-	<a href="/index" class="btn btn-info btn-sm">Return to main</a>
+	<a href="/index" class="btn btn-outline-info btn-sm">Return to main</a>
 	<br/>
 	<br/>
 	</div>

@@ -100,7 +100,7 @@ public class ClientController {
 			return "addclient";
 		} else {
 		clientRepository.save(client);
-		return "redirect:brokermain"; //brokermain.html
+		return "redirect:clientlist"; //clientlist.html
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class ClientController {
 		} else {
 			Client updatedClient = client;
 			clientRepository.save(updatedClient);
-			return "redirect:brokermain"; //brokermain.html	
+			return "redirect:clientlist"; //clientlist.html	
 		}		
 	}
 	
@@ -131,7 +131,7 @@ public class ClientController {
 	@GetMapping("/deleteclient/{id}")
 	public String deleteClient(@PathVariable("id") Long clientId) {
 		clientRepository.deleteById(clientId);
-		return "redirect:../brokermain"; //brokermain.html
+		return "redirect:../clientlist"; //clientlist.html
 	}
 
 }

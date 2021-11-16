@@ -110,7 +110,7 @@ public class LanguageController {
 			return "addlanguage";
 		} else {
 			languageRepository.save(language);
-			return "redirect:brokermain"; //brokermain.html	
+			return "redirect:languagelist"; // languagelist.html	
 		}
 	}
 	
@@ -132,7 +132,7 @@ public class LanguageController {
 		} else {
 			Language updateLanguage = language;
 			languageRepository.save(updateLanguage);
-			return "redirect:brokermain"; //brokermain.html	
+			return "redirect:languagelist"; // languagelist.html	
 		}
 	}
 	
@@ -140,7 +140,7 @@ public class LanguageController {
 	@GetMapping("/deletelanguage/{id}")
 	public String deleteLanguage(@PathVariable("id") Long languageId) {
 		languageRepository.deleteById(languageId);
-		return "redirect:../brokermain"; //brokermain.html	
+		return "redirect:../languagelist"; // languagelist.html	
 	}
 
 }

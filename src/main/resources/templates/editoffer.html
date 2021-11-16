@@ -1,23 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Edit Offer</title>
+<title>Offers</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{../css/bootstrap.min.css}" />
 </head>
 <body>
-	<h1>Offer Info</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">NN Translations</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/index">Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clientlist">Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/languagelist">Languages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/freelancerlist">Freelancers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/offerlist">Work Offers</a>
+          <span class="visually-hidden">(current)</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br/>
+	<div style="margin-left:15px">
+	<h4>Offer Info</h4>
 	
-	<table>
+	<table style="width:70%" class="table table-hover">
 		<tr>
-		<th>Client</th>
-		<th>Word Count</th>
-		<th>Price(€)</th>
-		<th>Subject</th>
-		<th>Requirements</th>
-		<th>Source Language</th>
-		<th>Target Language</th>
-		<th>Deadline(GMT +2)</th>
-		<th>Status</th>
+		<th scope="col">Client</th>
+		<th scope="col">Word Count</th>
+		<th scope="col">Price(€)</th>
+		<th scope="col">Subject</th>
+		<th scope="col">Requirements</th>
+		<th scope="col">Source Language</th>
+		<th scope="col">Target Language</th>
+		<th scope="col">Deadline(GMT +2)</th>
+		<th scope="col">Status</th>
 		</tr>
 		<tr th:object="${offer}">
 			<td th:text="*{client.clientName}">Client</td>
@@ -32,22 +64,29 @@
 		</tr>
 	</table>
 	
-	
+	<table>
+	<tr>
+	<td>
 	<form th:object="${offer}" 
 	th:action="@{/completeoffer/{id}(id=${offer.offerId})}" 
 	action="#" method="post">
-	<input type="submit" value="Completed"></input>
+	<input type="submit" value="Completed" class="btn btn-outline-success btn-sm"></input>
 	</form>
-	<div style="clear: both; display: block; height: 10px;"></div>
+	</td>
+<!-- <div style="clear: both; display: block; height: 10px;"></div> -->
+	<td>
 	<form th:object="${offer}" 
 	th:action="@{/releaseoffer}" action="#" method="post">
 	<label for="id"></label>
 	<input type="hidden" id="id" th:field="*{offerId}" readonly="readonly" />
-	<input type="submit" value="Release"></input>
+	<input type="submit" value="Release" class="btn btn-outline-warning btn-sm"></input>
 	</form>
+	</td>
+	</tr>
+	</table>
 	
-	<h2>Edit Offer</h2>
-	
+	<br/>
+	<h4>Edit Offer</h4>	
 	<div>
 	<form th:object="${offer}" th:action="@{/updateoffer}" action="#" method="post">
 	<label for="id"></label>
@@ -59,7 +98,7 @@
 	<label for="freelancer"></label>
 	<input type="hidden" id="freelancer" th:field="*{freelancer}" readonly="readonly" />
 	<label for="client">Client:</label>
-	<select id="client" th:field="*{client}" class="form-control">
+	<select id="client" th:field="*{client}" class="form-control" style="width:200px">
 		<option th:each="client: ${clients}"
 			th:value="${client.clientId}"
 			th:text="${client.clientName}">
@@ -68,37 +107,39 @@
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="wordCount">Word Count:</label>
 			<input type="text" id="wordCount" th:field="*{wordCount}" />
-			<div th:if="${#fields.hasErrors('wordCount')}" th:errors="*{wordCount}"></div>
+			<div th:if="${#fields.hasErrors('wordCount')}" th:errors="*{wordCount}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="price">Price(€):</label>
 			<input type="text" id="price" th:field="*{price}" />
-			<div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+			<div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="subject">Subject:</label>
-			<input type="text" id="subject" th:field="*{subject}" />
-			<div th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></div>
+			<input type="text" id="subject" th:field="*{subject}" size="40" />
+			<div th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="requirements">Requirements:</label>
-			<input type="text" id="requirements" th:field="*{requirements}" />
-			<div th:if="${#fields.hasErrors('requirements')}" th:errors="*{requirements}"></div>
+			<input type="text" id="requirements" th:field="*{requirements}" size="40" />
+			<div th:if="${#fields.hasErrors('requirements')}" th:errors="*{requirements}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="sourceLanguage">Source Language:</label>
 			<input type="text" id="sourceLanguage" th:field="*{sourceLanguage}" />
-			<div th:if="${#fields.hasErrors('sourceLanguage')}" th:errors="*{sourceLanguage}"></div>
+			<div th:if="${#fields.hasErrors('sourceLanguage')}" th:errors="*{sourceLanguage}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="targetLanguage">Target Language:</label>
 			<input type="text" id="targetLanguage" th:field="*{targetLanguage}" />
-			<div th:if="${#fields.hasErrors('targetLanguage')}" th:errors="*{targetLanguage}"></div>
+			<div th:if="${#fields.hasErrors('targetLanguage')}" th:errors="*{targetLanguage}" class="text-primary"></div>
 	<div style="clear: both; display: block; height: 10px;"></div>
 	<label for="deadlineDate">Deadline:</label>
 			<input placeholder="dd.mm.yyyy hh:mm" type="datetime-local" id="formDeadline" 
-			name="formDeadline" class="form-control" required th:field="*{formDeadline}"/>
+			name="formDeadline" class="form-control" required th:field="*{formDeadline}" style="width:250px"/>
 	<div style="clear: both; display: block; height: 10px;"></div>
-	<input type="submit" value="Save"></input>
+	<input type="submit" value="Save" class="btn btn-outline-success btn-sm"></input>
 	</form>
 	</div>
-	
 	<br/>
-	<a href="/brokermain">Return without saving</a>
+	<a href="/offerlist">Return without saving</a>
+	<br/>
+	<br/>
+	</div>
 </body>
 </html>

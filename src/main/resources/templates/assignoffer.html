@@ -1,27 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Assign Offer</title>
+<title>Offers</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{../css/bootstrap.min.css}" />
 </head>
 <body>
-	<h1>Assign a Freelancer to the Offer</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">NN Translations</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/index">Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clientlist">Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/languagelist">Languages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/freelancerlist">Freelancers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/offerlist">Work Offers</a>
+          <span class="visually-hidden">(current)</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br/>
+	<div style="margin-left:15px">
+	<h4>Assign a Freelancer to the Offer</h4>
 	<div>
 	<form th:object="${offer}" th:action="@{/assignfreelancer}" action="#" method="post">
 	<label for="id"></label>
 	<input type="hidden" id="id" th:field="*{offerId}" readonly="readonly" />
 	<label for="freelancer">Proficient freelancers</label>
-	<select id="freelancer" th:field="*{freelancer}" class="form-control">
+	<select id="freelancer" th:field="*{freelancer}" class="form-control" style="width:200px">
 		<option th:each="freelancer: ${freelancers}"
 			th:value="${freelancer.freelancerId}"
 			th:text="${freelancer.freelancerFName} + ' ' + ${freelancer.freelancerLName}">
 		</option>	
 	</select>
 	<div style="clear: both; display: block; height: 10px;"></div>
-	<input type="submit" value="Save"></input>
+	<input type="submit" value="Save" class="btn btn-outline-success btn-sm"></input>
 	</form>
 	</div>
 	<br/>
-	<a href="/brokermain">Return without saving</a>
+	<a href="/offerlist">Return without saving</a>
+	</div>
 </body>
 </html>
