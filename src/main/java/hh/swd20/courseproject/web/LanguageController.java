@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -88,6 +89,7 @@ public class LanguageController {
 	
 	// lists languages
 	@GetMapping("/languagelist")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String getLanguages(Model model) {
 		model.addAttribute("languages", languageRepository.findAll());
 		return "languagelist"; // languagelist.html
@@ -95,6 +97,7 @@ public class LanguageController {
 	
 	// gets the add language form, and gives it an empty new language
 	@GetMapping("/addlanguage")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String addLanguage(Model model) {
 		
 		model.addAttribute("language", new Language());
@@ -104,6 +107,7 @@ public class LanguageController {
 	
 	// saves a new language, if valid
 	@PostMapping("/savelanguage")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String saveLanguage(@Valid Language language, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
@@ -116,6 +120,7 @@ public class LanguageController {
 	
 	// gets the edit language form for the language specified by the id
 	@GetMapping("/editlanguage/{id}")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String editLanguage(@PathVariable("id") Long languageId, Model model) {
 		
 		model.addAttribute("language", languageRepository.findById(languageId).get());
@@ -125,6 +130,7 @@ public class LanguageController {
 	
 	// updates a specified language, if valid
 	@PostMapping("/updatelanguage")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String updateLanguage(@Valid Language language, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
@@ -138,6 +144,7 @@ public class LanguageController {
 	
 	// deletes a specified language
 	@GetMapping("/deletelanguage/{id}")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String deleteLanguage(@PathVariable("id") Long languageId) {
 		languageRepository.deleteById(languageId);
 		return "redirect:../languagelist"; // languagelist.html	

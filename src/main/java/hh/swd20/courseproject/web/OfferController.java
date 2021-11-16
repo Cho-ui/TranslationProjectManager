@@ -11,6 +11,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -117,6 +118,7 @@ public class OfferController {
 	
 	// lists unassigned, assigned and completed offers on the offerlist page
 	@GetMapping("/offerlist")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String offerList(Model model) {
 		model.addAttribute("unassignedOffers", offerRepository.findByAssignedFalseAndCompletedFalse());
 		model.addAttribute("assignedOffers", offerRepository.findByAssignedTrueAndCompletedFalse());
@@ -126,6 +128,7 @@ public class OfferController {
 	
 	// returns the add offer form, and provides it with a new offer object
 	@GetMapping("/addoffer")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String addOffer(Model model) {
 		model.addAttribute("offer", new Offer());
 		model.addAttribute("clients", clientRepository.findAll());
@@ -134,6 +137,7 @@ public class OfferController {
 	
 	// saves an offer, if valid
 	@PostMapping("/saveoffer")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String saveOffer(@Valid Offer offer, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
@@ -157,6 +161,7 @@ public class OfferController {
 	
 	// updates an offer, if valid
 	@PostMapping("/updateoffer")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String updateOffer(@Valid Offer offer, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
@@ -204,6 +209,7 @@ public class OfferController {
 	
 	// returns the edit form for an offer specified by an id
 	@GetMapping("/editoffer/{id}")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String editOffer(@PathVariable("id") Long offerId, Model model) {
 		
 		model.addAttribute("offer", offerRepository.findById(offerId).get());
@@ -214,13 +220,15 @@ public class OfferController {
 	}
 	
 	@GetMapping("/deleteoffer/{id}")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String deleteOffer(@PathVariable("id") Long offerId) {
 		offerRepository.deleteById(offerId);
 		
 		return "redirect:../offerlist"; // offerlist.html
 	}
 	
-	@PostMapping("/releaseoffer") 
+	@PostMapping("/releaseoffer")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String releaseOffer(@ModelAttribute Offer offer) {
 		
 		Offer toRelease = offerRepository.findById(offer.getOfferId()).get();
@@ -233,8 +241,8 @@ public class OfferController {
 		
 	}
 	
-	// tidy up?
 	@PostMapping("/completeoffer/{id}")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String completeOffer(@PathVariable("id") Long offerId) {
 		
 		Offer offer = offerRepository.findById(offerId).get();

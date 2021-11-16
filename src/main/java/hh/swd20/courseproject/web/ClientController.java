@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -80,6 +81,7 @@ public class ClientController {
 	
 	// lists clients to the clientlist page
 	@GetMapping("/clientlist")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String clientList(Model model) {
 		model.addAttribute("clients", clientRepository.findAll());
 		return "clientlist"; // clientlist.html
@@ -87,6 +89,7 @@ public class ClientController {
 	
 	// redirects to add client form with a new client object
 	@GetMapping("/addclient")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String addClient(Model model) {
 		model.addAttribute("client", new Client());
 		return "addclient"; //addclient.html
@@ -94,6 +97,7 @@ public class ClientController {
 	
 	// saves a new client from the add client form, if valid
 	@PostMapping("/saveclient")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String saveClient(@Valid Client client, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
@@ -106,6 +110,7 @@ public class ClientController {
 	
 	// opens the client edit-form, sends a client object based on client id to it
 	@GetMapping("/editclient/{id}")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String editClient(@PathVariable("id") Long clientId, Model model) {
 		
 		model.addAttribute("client", clientRepository.findById(clientId).get());
@@ -116,6 +121,7 @@ public class ClientController {
 	
 	// updates an existing client through the edit form, if valid
 	@PostMapping("/updateclient")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String updateClient(@Valid Client client, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
@@ -129,6 +135,7 @@ public class ClientController {
 	
 	// deletes a client
 	@GetMapping("/deleteclient/{id}")
+	@PreAuthorize("hasAuthority('BROKER')")
 	public String deleteClient(@PathVariable("id") Long clientId) {
 		clientRepository.deleteById(clientId);
 		return "redirect:../clientlist"; //clientlist.html

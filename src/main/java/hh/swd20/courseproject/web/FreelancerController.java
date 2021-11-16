@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -87,6 +88,7 @@ public class FreelancerController {
 	
 	// returns a list of freelancers and a freelancerlist page
 	@GetMapping("/freelancerlist")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String getFreelancers(Model model) {
 		model.addAttribute("freelancers", freelancerRepository.findAll());
 		return "freelancerlist"; //freelancerlist.html
@@ -94,6 +96,7 @@ public class FreelancerController {
 	
 	// returns the add freelancer form and passes a new freelancer to it
 	@GetMapping("/addfreelancer")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String addFreelancer(Model model) {
 		model.addAttribute("freelancer", new Freelancer());
 		return "addfreelancer"; //addfreelancer.html
@@ -101,6 +104,7 @@ public class FreelancerController {
 	
 	// handles the addition of a language to a freelancer
 	@PostMapping("/addfreelancerlanguage/{id}")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String addFreeLancerLanguage(@PathVariable("id") Long freelancerId,
 			@ModelAttribute Freelancer freelancer, Model model) {
 		
@@ -152,6 +156,7 @@ public class FreelancerController {
 	
 	// handles the deletion of a language from a freelancer's proficiencies
 	@PostMapping("/deletefreelancerlanguage/{id}")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String deleteFreeLancerLanguage(@PathVariable("id") Long freelancerId,
 			@ModelAttribute Freelancer freelancer, Model model) {
 		
@@ -226,6 +231,7 @@ public class FreelancerController {
 	
 	// deletes a specified freelancer
 	@GetMapping("/deletefreelancer/{id}")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String deleteFreelancer(@PathVariable("id") Long freelancerId) {
 		freelancerRepository.deleteById(freelancerId);
 		
@@ -234,6 +240,7 @@ public class FreelancerController {
 	
 	// saves a freelancer, if valid
 	@PostMapping("/savefreelancer")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String saveFreelancer(@Valid Freelancer freelancer, BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors()) {
@@ -245,7 +252,8 @@ public class FreelancerController {
 	}
 	
 	// saves an updated freelancer, if valid
-	@PostMapping("/updatefreelancer") 
+	@PostMapping("/updatefreelancer")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String updateFreelancer(@Valid Freelancer freelancer, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
@@ -299,6 +307,7 @@ public class FreelancerController {
 	}
 	
 	@GetMapping("/editfreelancer/{id}")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String editFreelancer(@PathVariable("id") Long freelancerId, Model model) {
 		
 		/* add:
@@ -335,7 +344,8 @@ public class FreelancerController {
 		return "editfreelancer"; //editfreelancer.html
 	}
 	
-	@PostMapping("/assignfreelancer") //
+	@PostMapping("/assignfreelancer")
+	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String assignFreelancer(@ModelAttribute Offer offer, 
 			@ModelAttribute Freelancer freelancer) {
 		
