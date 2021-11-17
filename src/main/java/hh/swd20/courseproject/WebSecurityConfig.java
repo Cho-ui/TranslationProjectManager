@@ -24,9 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 			.authorizeRequests()
-			.antMatchers("/css/**").permitAll()
+			.antMatchers("/css/**", "/offers/unassigned").permitAll()
+			// unassigned offers REST endpoint permitted for demo purposes
 			.and()
 			.authorizeRequests()
+			// h2 console is permitted for development purposes
 			.antMatchers("/h2-console/**").permitAll()
 			.and()
 			.csrf().ignoringAntMatchers("/h2-console/**")
