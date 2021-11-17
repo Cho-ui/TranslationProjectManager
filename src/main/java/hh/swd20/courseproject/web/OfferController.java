@@ -52,7 +52,7 @@ public class OfferController {
 	}
 	
 	// RESTful service for getting unassigned offers
-	@CrossOrigin(origins = "http://localhost:3000/")
+	@CrossOrigin(origins = "https://translationmanagerfront.herokuapp.com/")
 	@GetMapping("/offers/unassigned")
 	public @ResponseBody List<Offer> unassignedOfferListRest() {
 		return (List<Offer>) offerRepository.findByAssignedFalseAndCompletedFalse();
