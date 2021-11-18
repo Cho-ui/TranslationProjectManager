@@ -24,7 +24,7 @@ public class Language {
 	@NotEmpty(message = "A language must have a name")
 	@Size(min=2, max=30, message = "Name must be 2-30 characters long")
 	// any alphabet letter with Scandic characters included, "+" once or more times
-	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ()\\.\\s]+", message = "Characters A-Z, ÜÅÄÖÆØ, and ( ) . are permitted")
+	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ()\\.\\s\\-]+", message = "Characters A-Z, ÜÅÄÖÆØ, and ( ) . are permitted")
 	private String languageName;
 	
 	@JsonIgnore
