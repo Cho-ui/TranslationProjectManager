@@ -28,6 +28,7 @@ import hh.swd20.courseproject.domain.LanguageRepository;
 import hh.swd20.courseproject.domain.Offer;
 import hh.swd20.courseproject.domain.OfferRepository;
 
+//TODO Specified CrossOrigin annotation(s) when REST endpoints in actual use
 @Controller
 public class FreelancerController {
 	
@@ -293,7 +294,7 @@ public class FreelancerController {
 		
 			/* Gets existing freelancer language set, which is stored
 			 * separately. Sets the language set to the updated freelancer,
-			 * so as to not overwrite an empty set when saving the updated
+			 * so as to not overwrite with an empty set when saving the updated
 			 * freelancer
 			 */
 			Set<Language> freelancerLanguages = freelancerRepository.findById(freelancer.getFreelancerId()).get().getLanguages();
@@ -306,6 +307,7 @@ public class FreelancerController {
 		}
 	}
 	
+	// edits a freelancer based on the given id
 	@GetMapping("/editfreelancer/{id}")
 	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String editFreelancer(@PathVariable("id") Long freelancerId, Model model) {
@@ -344,6 +346,7 @@ public class FreelancerController {
 		return "editfreelancer"; //editfreelancer.html
 	}
 	
+	// assigning a freelancer to a work offer
 	@PostMapping("/assignfreelancer")
 	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String assignFreelancer(@ModelAttribute Offer offer, 

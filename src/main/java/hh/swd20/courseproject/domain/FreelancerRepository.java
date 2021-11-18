@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FreelancerRepository extends CrudRepository<Freelancer, Long> {
 	
-	// Could be used to clean up freelancers' language searches
+	// Could be used to clean up freelancers' language searches from brute force list work
 	// public List<Freelancer> findByLanguagesIn(HashSet<Language> neededLanguages);
 
 }

@@ -31,6 +31,7 @@ import hh.swd20.courseproject.domain.FreelancerRepository;
 import hh.swd20.courseproject.domain.Offer;
 import hh.swd20.courseproject.domain.OfferRepository;
 
+//TODO Specified CrossOrigin annotation(s) when REST endpoints in actual use
 @Controller
 public class OfferController {
 
@@ -221,6 +222,7 @@ public class OfferController {
 		
 	}
 	
+	// deletes an offer based on a given id
 	@GetMapping("/deleteoffer/{id}")
 	@PreAuthorize("hasAuthority('BROKER')")
 	public String deleteOffer(@PathVariable("id") Long offerId) {
@@ -229,6 +231,7 @@ public class OfferController {
 		return "redirect:../offerlist"; // offerlist.html
 	}
 	
+	// releases an offer, returning it to an unassigned-state
 	@PostMapping("/releaseoffer")
 	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String releaseOffer(@ModelAttribute Offer offer) {
@@ -243,6 +246,7 @@ public class OfferController {
 		
 	}
 	
+	// sets an offer to a completed-state
 	@PostMapping("/completeoffer/{id}")
 	@PreAuthorize("hasAnyAuthority('BROKER', 'MANAGER')")
 	public String completeOffer(@PathVariable("id") Long offerId) {
@@ -258,6 +262,7 @@ public class OfferController {
 		return "redirect:../offerlist"; // offerlist.html
 	}
 	
+	// returns an assign form for along with suitable freelancers
 	@GetMapping("/assign/{id}")
 	public String assignOffer(@PathVariable("id") Long offerId, Model model) {
 		

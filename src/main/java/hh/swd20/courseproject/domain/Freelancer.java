@@ -47,7 +47,8 @@ public class Freelancer {
 	@Pattern(regexp = "\\+?[0-9]+", message = "Number in format +NNN.. or NNN..")
 	private String freelancerPhone;
 	
-	@Size(min=2, max=30, message = "Address must be 2-30 characters long")
+	@Size(min=2, max=50, message = "Address must be 2-50 characters long")
+	// any word character/number with Scandic characters included, once or more times
 	@Pattern(regexp = "[a-zA-ZüåäöæøÜÅÄÖÆØ_0-9\\s\\-]+", message = "Please provide a valid address(A-Z, 0-9, Scandic characters permitted)")
 	private String freelancerAddress;
 	
@@ -58,10 +59,10 @@ public class Freelancer {
 	private String freelancerEmail;
 	
 	@JsonIgnore
-	private String freelanceLanguageField; // form field workaround variable
+	private String freelanceLanguageField; // form field workaround variable for Thymeleaf, remove when moving to a front-end based solution
 	
 	@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.MERGE }) // changed from ALL
+	@ManyToMany(cascade = { CascadeType.MERGE }) 
 	@JoinTable(name = "Freelancer_Proficiency",
 	joinColumns = { @JoinColumn(name = "freelancerId") },
 	inverseJoinColumns =  { @JoinColumn(name = "languageId") }
@@ -69,7 +70,7 @@ public class Freelancer {
 	Set<Language> languages = new HashSet<Language>();
 	
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "freelancer") // another cascade type?
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "freelancer") 
 	private List<Offer> offers;
 	
 	public Freelancer(String freelancerFName, String freelancerLName, String freelancerPhone, String freelancerAddress,
@@ -198,7 +199,7 @@ public class Freelancer {
 	}
 
 	@Override
-	public String toString() { // not updated, update when necessary
+	public String toString() { // not recently updated, update when necessary
 		return "Freelancer [freelancerFName=" + freelancerFName + ", freelancerLName=" + freelancerLName
 				+ ", freelancerPhone=" + freelancerPhone + ", freelancerAddress=" + freelancerAddress
 				+ ", freelancerEmail=" + freelancerEmail + "]";

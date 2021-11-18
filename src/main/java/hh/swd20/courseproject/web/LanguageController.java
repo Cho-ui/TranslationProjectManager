@@ -23,6 +23,7 @@ import hh.swd20.courseproject.domain.Freelancer;
 import hh.swd20.courseproject.domain.Language;
 import hh.swd20.courseproject.domain.LanguageRepository;
 
+//TODO Specified CrossOrigin annotation(s) when REST endpoints in actual use
 @Controller
 public class LanguageController {
 	

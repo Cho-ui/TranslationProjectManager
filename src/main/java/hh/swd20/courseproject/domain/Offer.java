@@ -49,7 +49,7 @@ public class Offer {
 	private String targetLanguage;
 	
 	@JsonIgnore
-	private String formDeadline; // thymeleaf workaround DB variable
+	private String formDeadline; // thymeleaf workaround DB variable, remove when moving to a front-end solution
 	
 	@Size(max=255, message = "Requirements need to be specified in 255 characters")
 	private String requirements;
@@ -59,7 +59,7 @@ public class Offer {
 
 	private ZonedDateTime deadlineDate; // not in constructor
 	
-	// not in use, edit according to deadlinedate later
+	// not in use, edit according to deadlinedate later when developing completiondate-functionality
 	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm") 
 	private LocalDateTime completionDate;
 	
@@ -234,7 +234,7 @@ public class Offer {
 		return "";
 	}
 
-	@Override // not updated, update when necessary, at least with deadline
+	@Override // not updated recently, update when needed
 	public String toString() {
 		return "Offer [wordCount=" + wordCount + ", price=" + price + ", subject=" + subject + ", sourceLanguage="
 				+ sourceLanguage + ", targetLanguage=" + targetLanguage + ", client=" + client + "]";

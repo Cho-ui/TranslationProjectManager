@@ -52,7 +52,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<th scope="col">Price (€)</th>
 			<th/>
 			<th/>
-			<th/>
+			<th sec:authorize="hasAuthority('BROKER')"/>
 		</tr>
 		<tr th:each="offer: ${unassignedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
@@ -85,7 +85,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<th scope="col">Freelancer</th>
 			<th scope="col">View Freelancer</th>
 			<th scope="col">Edit Offer</th>
-			<th/>
+			<th sec:authorize="hasAuthority('BROKER')"/>
 		</tr>
 		<tr th:each="offer: ${assignedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>
@@ -116,7 +116,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<th scope="col">Freelancer</th>
 			<th scope="col">View Freelancer</th>
 			<th scope="col">Edit Offer</th>
-			<th/>
+			<th sec:authorize="hasAuthority('BROKER')"/>
 		</tr>
 		<tr th:each="offer: ${completedOffers}">
 			<td th:text="${offer.client.clientName}">Client Name</td>

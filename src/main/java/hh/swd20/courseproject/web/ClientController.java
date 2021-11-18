@@ -22,7 +22,7 @@ import hh.swd20.courseproject.domain.Client;
 import hh.swd20.courseproject.domain.ClientRepository;
 
 
-// CrossOrigin-annotaatio?
+// TODO Specified CrossOrigin annotation(s) when REST endpoints in actual use
 @Controller
 public class ClientController {
 	

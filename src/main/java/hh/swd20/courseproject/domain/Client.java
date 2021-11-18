@@ -125,7 +125,7 @@ public class Client {
 		this.offers = offers;
 	}
 	
-	@JsonIgnore // palaa muuten REST-getissä mukana
+	@JsonIgnore // ignore so not returned with REST-requests
 	public int getOffersSize() { 
 		return this.offers.size();
 	}
